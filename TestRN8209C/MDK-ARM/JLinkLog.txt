@@ -1,0 +1,54 @@
+T15BC 000:020.565   SEGGER J-Link V6.64 Log File
+T15BC 000:027.255   DLL Compiled: Mar 13 2020 15:55:42
+T15BC 000:027.263   Logging started @ 2023-04-06 01:35
+T15BC 000:027.275 JLINK_SetWarnOutHandler(...)
+T15BC 000:031.081 - 3.810ms
+T15BC 000:031.221 JLINK_OpenEx(...)
+T15BC 000:050.756   Firmware: J-Link V9 compiled Dec 13 2019 11:14:50
+T15BC 000:059.851   Decompressing FW timestamp took 8941 us
+T15BC 000:066.372   Hardware: V9.20
+T15BC 000:066.393   S/N: 595232691
+T15BC 000:066.404   OEM: SEGGER
+T15BC 000:066.414   Feature(s): GDB, RDI, FlashBP, FlashDL, JFlash, RDDI
+T15BC 000:068.001   TELNET listener socket opened on port 19021
+T15BC 000:068.136   WEBSRV Starting webserver
+T15BC 000:068.288   WEBSRV Webserver running on local port 19080
+T15BC 000:068.300 - 37.083ms returns "O.K."
+T15BC 000:068.319 JLINK_GetEmuCaps()
+T15BC 000:068.327 - 0.011ms returns 0xB9FF7BBF
+T15BC 000:068.517 JLINK_TIF_GetAvailable(...)
+T15BC 000:068.768 - 0.256ms
+T15BC 000:068.782 JLINK_SetErrorOutHandler(...)
+T15BC 000:068.789 - 0.010ms
+T15BC 000:068.809 JLINK_ExecCommand("ProjectFile = "E:\WHY-Work\05-Other\09-DC_Switch(4Ch)\source\TestRN8209C\MDK-ARM\JLinkSettings.ini"", ...). 
+T15BC 000:133.338   Ref file found at: D:\Keil_v5\ARM\Segger\JLinkDevices.ref
+T15BC 000:133.686   XML referenced by ref file: C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml
+T15BC 000:135.028   C:\Program Files (x86)\SEGGER\JLink\JLinkDevices.xml evaluated successfully.
+T15BC 000:242.769 - 173.976ms returns 0x00
+T15BC 000:244.037 JLINK_ExecCommand("Device = STM32F103RC", ...). 
+T15BC 000:245.955   Device "STM32F103RC" selected.
+T15BC 000:246.430 - 2.380ms returns 0x00
+T15BC 000:246.446 JLINK_ExecCommand("DisableConnectionTimeout", ...). 
+T15BC 000:246.462 - 0.009ms returns 0x01
+T15BC 000:246.472 JLINK_GetHardwareVersion()
+T15BC 000:246.484 - 0.016ms returns 0x16760
+T15BC 000:246.493 JLINK_GetDLLVersion()  returns 66400
+T15BC 000:246.508 JLINK_GetFirmwareString(...)
+T15BC 000:246.516 - 0.011ms
+T15BC 000:249.533 JLINK_GetDLLVersion()  returns 66400
+T15BC 000:249.548 JLINK_GetCompileDateTime()
+T15BC 000:249.555 - 0.010ms
+T15BC 000:250.469 JLINK_GetFirmwareString(...)
+T15BC 000:250.479 - 0.014ms
+T15BC 000:251.387 JLINK_GetHardwareVersion()
+T15BC 000:251.397 - 0.013ms returns 0x16760
+T15BC 000:255.038 JLINK_TIF_Select(JLINKARM_TIF_SWD)
+T15BC 000:256.311 - 1.281ms returns 0x00
+T15BC 000:256.502 JLINK_SetSpeed(5000)
+T15BC 000:256.690 - 0.191ms
+T15BC 000:256.701 JLINK_GetId()
+T15BC 000:256.933 - 0.236ms   returns 0x00000000
+T15BC 001:504.308 JLINK_Close()
+T15BC 001:510.729 - 6.437ms
+T15BC 001:510.749   
+T15BC 001:510.757   Closed
