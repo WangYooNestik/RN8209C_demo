@@ -48,8 +48,8 @@ static EN_CID2_RTN Parse_Responder_Cmd(void)
 			TempOffsetType = UartRcv.Data.Temp1.pBuf[Idx1++];
 			switch(TempOffsetType)
 			{
-				case RN8209_CLB_OFFSET_POWER:
-				case RN8209_CLB_OFFSET_ENERGY:
+				case RN8209_CLB_OFFSET_CH_A:
+				case RN8209_CLB_OFFSET_CH_B:
 					Set_RN8209_Main_Func(RN8209_CLB_OFFSET);
 					RN8209_Calibrate_Offset_Set_Type(TempOffsetType);
 					break;

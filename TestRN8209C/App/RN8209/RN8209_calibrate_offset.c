@@ -126,7 +126,7 @@ bool RN8209_Calibrate_Offset_Handler(void)
 		case RN8209_CLB_OFFSET_WAIT_1:
 			if(Tick_Timeout(&WaitTick, WAIT_DATA_REFRESH_TIME))
 			{
-				if(RN8209_CalibrateOffset.Type == RN8209_CLB_OFFSET_POWER)
+				if(RN8209_CalibrateOffset.Type == RN8209_CLB_OFFSET_CH_A)
 				{
 					RN8209_Calibrate_Ch_A_Power_Offset();
 				}else{
