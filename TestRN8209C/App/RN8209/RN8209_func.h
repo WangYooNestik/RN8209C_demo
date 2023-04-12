@@ -24,8 +24,8 @@ typedef enum{
 #define RN8209_EC 3200		//电表常数
 
 #define U_S_Gain 331		//电压采样电阻比例
-#define I_S_Gain_1 4000		//电流采样电阻比例，采样电阻250μΩ
-#define I_S_Gain_2 2000		//电流采样电阻比例，采样电阻500μΩ
+#define I_S_Gain_1 4000		//电流采样电阻比例，采样电阻250μΩ，（I_S_Gain_1 = 1 / 250μΩ）
+#define I_S_Gain_2 2000		//电流采样电阻比例，采样电阻500μΩ，（I_S_Gain_2 = 1 / 500μΩ）
 #define I_S_Gain I_S_Gain_2	//电流采样电阻比例
 
 //功率转换系数Kp
