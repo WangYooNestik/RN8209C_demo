@@ -6,7 +6,7 @@
 
 typedef struct{
 	ST_STORAGE_CHECK StorageCheck;
-	u8 DataBuf[W25QXX_PAGE_SIZE];
+	u8 DataBuf[W25QXX_SECTOR_SIZE];
 }ST_STORAGE_DATA;
 
 typedef struct{
