@@ -16,9 +16,9 @@ static void RN8209_Calibrate_Zero_Init(void)
 {
 	RN8209_Init_Variables();
 
-	RN8209_Reset();
-
-	RN8209_CheckSum += RN8209_Init_Ctl_Reg();
+	RN8209_CheckSum += RN8209_Init_Func(RN8209_RESET);
+	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
+	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
 	RN8209_CheckSum = ~RN8209_CheckSum;
 }
 
@@ -26,10 +26,10 @@ static void RN8209_Calibrate_Zero_Init_1(void)
 {
 	RN8209_Init_Variables();
 
-	RN8209_Reset();
-
-	RN8209_CheckSum += RN8209_Init_Ctl_Reg();
-	RN8209_CheckSum += RN8209_Init_Zero_Reg();
+	RN8209_CheckSum += RN8209_Init_Func(RN8209_RESET);
+	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
+	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
+	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_DC_OFFSET);
 	RN8209_CheckSum = ~RN8209_CheckSum;
 }
 

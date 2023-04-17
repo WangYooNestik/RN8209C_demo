@@ -34,13 +34,25 @@ typedef enum{
 #define KP_VALUE (2 * U_S_Gain * I_S_Gain / (pow(2, 32) * CH_I_GAIN))
 
 
+
+
+
+typedef enum{
+	RN8209_RESET = 0,
+	RN8209_SET_CTL_REG,
+	RN8209_SET_POWER_START,		//启动功率
+	RN8209_SET_IB_GAIN,			//电流通道B，增益
+	RN8209_SET_DC_OFFSET,		//直流偏置
+	RN8209_SET_EVD,				//有效值偏差
+	RN8209_SET_GAIN,			//增益校准
+	RN8209_SET_POWER_OFFSET,	//有功功率偏差
+	RN8209_SET_ENERGY,			//写入快速脉冲
+	RN8209_INIT_FUNC_MAX
+}EN_RN8209_INIT_FUNC;
+
+
 void RN8209_Init_Variables(void);
-void RN8209_Reset(void);
-u16 RN8209_Init_Ctl_Reg(void);
-u16 RN8209_Init_Zero_Reg(void);
-u16 RN8209_Init_Zero_Reg_1(void);
-u16 RN8209_Init_Gain_Reg(void);
-u16 RN8209_Init_Offset_Reg(void);
+u16 RN8209_Init_Func(EN_RN8209_INIT_FUNC Func);
 void RN8209_Init(void);
 
 #endif
