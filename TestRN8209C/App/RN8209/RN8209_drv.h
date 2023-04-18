@@ -114,9 +114,9 @@ extern ST_RN8209_CTL_REG RN8209_CtlReg;
 typedef struct{
 	u16 PFCnt;
 	u16 DFcnt;
-	u24 IARMS;
-	u24 IBRMS;
-	u24 URMS;
+	s24 IARMS;
+	s24 IBRMS;
+	s24 URMS;
 	u16 UFreq;
 	s32 PowerPA;
 	s32 PowerPB;
