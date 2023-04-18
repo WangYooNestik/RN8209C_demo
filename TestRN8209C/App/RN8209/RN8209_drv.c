@@ -189,7 +189,7 @@ static bool RN8209_Check_Reg_Pack(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 	return false;
 }
 
-static EN_Global_Status rn8209_ParseCmd(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
+static EN_Global_Status RN8209_ParseCmd(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 {
 	EN_Global_Status Status = Status_Success;
 	u32 TempReg = 0;
@@ -295,7 +295,7 @@ EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
 
 			if(RN8209_Check_Reg_Pack(RegAddr, tmpData, Len))
 			{
-				Status = rn8209_ParseCmd(RegAddr, tmpData, (Len-1));
+				Status = RN8209_ParseCmd(RegAddr, tmpData, (Len-1));
 				break;
 			}else{
 				Status = Status_Error;
