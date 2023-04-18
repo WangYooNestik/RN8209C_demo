@@ -47,6 +47,7 @@ typedef enum{
 	ADDR_DCUH = 0x15,
 	ADDR_DCL = 0x16,
 	ADDR_EMUCON2 = 0x17,	//计量控制寄存器2
+
 	ADDR_PFCnt = 0x20,
 	ADDR_DFcnt = 0x21,
 	ADDR_IARMS = 0x22,		//通道A电流有效值
@@ -72,7 +73,8 @@ typedef enum{
 	ADDR_RData = 0x44,
 	ADDR_WData = 0x45,
 	ADDR_DeviceID = 0x7f,
-	ADDR_SysCtl = 0xea,
+
+	ADDR_SysCtl = 0xea,		//特殊命令（抽象为一个寄存器）
 }EN_RN8209_REG_ADDR;
 
 //---- RN8209 寄存器缓存----//
