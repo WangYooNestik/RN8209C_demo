@@ -247,7 +247,7 @@ static EN_Global_Status rn8209_ParseCmd(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u
 			{
 				if(RN8209_CheckSum != (RN8209_RegRcv.Data.EMUStatus & 0x0000ffff))
 				{
-					return Status_Error;
+					Status = Status_Error;
 				}
 			}
 			break;
@@ -290,23 +290,26 @@ EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
 		{
 			memcpy(tmpData, Uart3.Rx.pBuf, Uart3.Rx.Len);
 			Len = Uart3.Rx.Len;
-		
+
 			Uart3.Rx.Len = 0;
-		
+
 			if(RN8209_Check_Reg_Pack(RegAddr, tmpData, Len))
 			{
 				Status = rn8209_ParseCmd(RegAddr, tmpData, (Len-1));
-		
-				return Status;
+				break;
 			}else{
-				return Status_Error;
+				Status = Status_Error;
+				break;
 			}
 		}
 		else if(Tick_Timeout(&WaitTick, TIME_25MS))
 		{
-			return Status_Timeout;
+			Status = Status_Timeout;
+			break;
 		}
 	}
+
+	return Status;
 }
 
 
