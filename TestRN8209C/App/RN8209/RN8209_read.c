@@ -29,17 +29,17 @@ void RN8209_Read(void)
 
 	if(Tick_Timeout(&WaitTick, TIME_100MS))
 	{
-		Status[0] = RN8209_Read_Reg_Swap(ADDR_URMS);
-		Status[1] = RN8209_Read_Reg_Swap(ADDR_IARMS);
-		Status[2] = RN8209_Read_Reg_Swap(ADDR_PowerPA);
-		Status[3] = RN8209_Read_Reg_Swap(ADDR_EnergyP);
-		Status[4] = RN8209_Read_Reg_Swap(ADDR_IBRMS);
-		Status[5] = RN8209_Read_Reg_Swap(ADDR_PowerPB);
-		Status[6] = RN8209_Read_Reg_Swap(ADDR_EnergyD);
-		Status[7] = RN8209_Read_Reg_Swap(ADDR_EMUStatus);
+		Status[0] = RN8209_Read_Reg(ADDR_URMS);
+		Status[1] = RN8209_Read_Reg(ADDR_IARMS);
+		Status[2] = RN8209_Read_Reg(ADDR_PowerPA);
+		Status[3] = RN8209_Read_Reg(ADDR_EnergyP);
+		Status[4] = RN8209_Read_Reg(ADDR_IBRMS);
+		Status[5] = RN8209_Read_Reg(ADDR_PowerPB);
+		Status[6] = RN8209_Read_Reg(ADDR_EnergyD);
+		Status[7] = RN8209_Read_Reg(ADDR_EMUStatus);
 
-		Status[8] = RN8209_Read_Reg_Swap(ADDR_PFCnt);
-		Status[9] = RN8209_Read_Reg_Swap(ADDR_DFcnt);
+		Status[8] = RN8209_Read_Reg(ADDR_PFCnt);
+		Status[9] = RN8209_Read_Reg(ADDR_DFcnt);
 
 		for(i=0; i<READ_REG_NUM; i++)
 		{

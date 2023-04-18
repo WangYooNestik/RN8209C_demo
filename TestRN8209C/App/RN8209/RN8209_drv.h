@@ -112,8 +112,8 @@ typedef struct{
 extern const ST_RN8209_SYSCTL RN8209_SysCtl;
 
 
-EN_Global_Status RN8209_Write_Reg_Swap(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len);
-EN_Global_Status RN8209_Read_Reg_Swap(EN_RN8209_REG_ADDR RegAddr);
+EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len);
+EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr);
 
 #endif
 

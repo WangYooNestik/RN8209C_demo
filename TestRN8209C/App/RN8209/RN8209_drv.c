@@ -25,7 +25,7 @@ const ST_RN8209_SYSCTL RN8209_SysCtl = {.Unlock = UNLOCK, LOCK, SLC_CH_A, SLC_CH
 
 
 
-static bool If_Found_Addr_Reg(EN_RN8209_REG_ADDR RegAddr)
+static bool If_Found_RN8209_Reg(EN_RN8209_REG_ADDR RegAddr)
 {
 	bool FoundReg = false;
 
@@ -110,64 +110,14 @@ static void RN8209_Send(u8 Data[], u8 Len)
 
 
 
-#if 1
-//****************************************************
-//RN8209写寄存器
-//****************************************************
-static EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
+static void RN8209_Swap_Data(u8 S_Data[], u8 Len, u8 O_Data[])
 {
-	u8 tmpData[RN8209_BUF_SIZE];
 	u8 i = 0 ;
-
-	if(If_Found_Addr_Reg(RegAddr) == false)
-	{
-		return Status_Error;
-	}
-
-	if((Len == 0) || (Len > 4))
-	{
-		return Status_Error;
-	}
-
-	tmpData[0] = RegAddr | 0x80;
 
 	for(i=0; i<Len; i++)
 	{
-		tmpData[i+1] = Data[i];
+		O_Data[Len-1-i] = S_Data[i];
 	}
-
-	Len += 1;
-
-	tmpData[Len] = (~(Check_Sum(tmpData, Len)));
-
-	Len += 1;
-
-	RN8209_Send(tmpData, Len);
-
-	HAL_Delay(TIME_25MS);
-
-	return Status_Success;
-}
-#else
-static void RN8209_Pack_And_Send_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
-{
-	u8 tmpData[RN8209_BUF_SIZE];
-	u8 i = 0 ;
-
-	tmpData[0] = RegAddr | 0x80;
-
-	for(i=0; i<Len; i++)
-	{
-		tmpData[i+1] = Data[i];
-	}
-
-	Len += 1;
-
-	tmpData[Len] = (~(Check_Sum(tmpData, Len)));
-
-	Len += 1;
-
-	RN8209_Send(tmpData, Len);
 }
 
 //****************************************************
@@ -175,7 +125,11 @@ static void RN8209_Pack_And_Send_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 L
 //****************************************************
 EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 {
-	if(If_Found_Addr_Reg(RegAddr) == false)
+	u8 tmpData1[RN8209_BUF_SIZE] = {0};
+	u8 tmpData2[RN8209_BUF_SIZE] = {0};
+	u8 i = 0 ;
+
+	if(If_Found_RN8209_Reg(RegAddr) == false)
 	{
 		return Status_Error;
 	}
@@ -185,21 +139,28 @@ EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 		return Status_Error;
 	}
 
-	//使能写
-	RN8209_Pack_And_Send_Reg(ADDR_SysCtl, RN8209_SysCtl.Unlock, 1);
-	HAL_Delay(TIME_25MS);
+	//大小端格式转换，先发送高字节
+	RN8209_Swap_Data(Data, Len, tmpData1);
 
-	//发送要写的寄存器值
-	RN8209_Pack_And_Send_Reg(RegAddr, Data, Len);
-	HAL_Delay(TIME_25MS);
+	tmpData2[0] = RegAddr | 0x80;
 
-	//关闭写
-	RN8209_Pack_And_Send_Reg(ADDR_SysCtl, RN8209_SysCtl.Lock, 1);
+	for(i=0; i<Len; i++)
+	{
+		tmpData2[i+1] = tmpData1[i];
+	}
+
+	Len += 1;
+
+	tmpData2[Len] = (~(Check_Sum(tmpData2, Len)));
+
+	Len += 1;
+
+	RN8209_Send(tmpData2, Len);
+
 	HAL_Delay(TIME_25MS);
 
 	return Status_Success;
 }
-#endif
 
 
 
@@ -306,14 +267,14 @@ static EN_Global_Status rn8209_ParseCmd(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u
 //****************************************************
 //RN8209读寄存器
 //****************************************************
-static EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
+EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
 {
 	EN_Global_Status Status = Status_Success;
 	u8 tmpData[RN8209_BUF_SIZE];
 	u8 Len = 0;
 	u32 WaitTick = 0;
 
-	if(If_Found_Addr_Reg(RegAddr) == false)
+	if(If_Found_RN8209_Reg(RegAddr) == false)
 	{
 		return Status_Error;
 	}
@@ -348,23 +309,6 @@ static EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
 	}
 }
 
-EN_Global_Status RN8209_Write_Reg_Swap(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
-{
-	u8 tmpData[RN8209_BUF_SIZE];
-	u8 i = 0 ;
-
-	for(i=0; i<Len; i++)
-	{
-		tmpData[Len-1-i] = Data[i];
-	}
-
-	return RN8209_Write_Reg(RegAddr, tmpData, Len);
-}
-
-EN_Global_Status RN8209_Read_Reg_Swap(EN_RN8209_REG_ADDR RegAddr)
-{
-	return RN8209_Read_Reg(RegAddr);
-}
 
 
 
