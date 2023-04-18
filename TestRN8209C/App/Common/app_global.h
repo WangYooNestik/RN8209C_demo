@@ -101,6 +101,15 @@ typedef struct{
 	u16 Len;
 }ST_BUF;
 
+typedef enum{
+	Status_Success = 0,
+	Status_Enable,
+	Status_Wait,
+	Status_Error,
+	Status_Timeout,
+	Status_ProtocolError,
+}EN_Global_Status;
+
 
 void My_System_Init(void);
 void Debug_MCU_Freeeze(void);

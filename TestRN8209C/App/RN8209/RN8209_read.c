@@ -25,7 +25,7 @@ void RN8209_Read(void)
 	u8 i = 0;
 	u64 TempSum1[3] = {0};
 	s64 TempSum2[2] = {0};
-	EN_RN8209_Read_Write_Status Status[READ_REG_NUM] = {Status_Success};
+	EN_Global_Status Status[READ_REG_NUM] = {Status_Success};
 
 	if(Tick_Timeout(&WaitTick, TIME_100MS))
 	{

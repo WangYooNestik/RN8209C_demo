@@ -114,7 +114,7 @@ static void RN8209_Send(u8 Data[], u8 Len)
 //****************************************************
 //RN8209写寄存器
 //****************************************************
-static EN_RN8209_Read_Write_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
+static EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 {
 	u8 tmpData[RN8209_BUF_SIZE];
 	u8 i = 0 ;
@@ -173,7 +173,7 @@ static void RN8209_Pack_And_Send_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 L
 //****************************************************
 //RN8209写寄存器
 //****************************************************
-EN_RN8209_Read_Write_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
+EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 {
 	if(If_Found_Addr_Reg(RegAddr) == false)
 	{
@@ -228,9 +228,9 @@ static bool RN8209_Check_Reg_Pack(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 	return false;
 }
 
-static EN_RN8209_Read_Write_Status rn8209_ParseCmd(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
+static EN_Global_Status rn8209_ParseCmd(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 {
-	EN_RN8209_Read_Write_Status Status = Status_Success;
+	EN_Global_Status Status = Status_Success;
 	u32 TempReg = 0;
 	u8 Idx = 0;
 
@@ -306,9 +306,9 @@ static EN_RN8209_Read_Write_Status rn8209_ParseCmd(EN_RN8209_REG_ADDR RegAddr, u
 //****************************************************
 //RN8209读寄存器
 //****************************************************
-static EN_RN8209_Read_Write_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
+static EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
 {
-	EN_RN8209_Read_Write_Status Status = Status_Success;
+	EN_Global_Status Status = Status_Success;
 	u8 tmpData[RN8209_BUF_SIZE];
 	u8 Len = 0;
 	u32 WaitTick = 0;
@@ -348,7 +348,7 @@ static EN_RN8209_Read_Write_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
 	}
 }
 
-EN_RN8209_Read_Write_Status RN8209_Write_Reg_Swap(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
+EN_Global_Status RN8209_Write_Reg_Swap(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 {
 	u8 tmpData[RN8209_BUF_SIZE];
 	u8 i = 0 ;
@@ -361,7 +361,7 @@ EN_RN8209_Read_Write_Status RN8209_Write_Reg_Swap(EN_RN8209_REG_ADDR RegAddr, u8
 	return RN8209_Write_Reg(RegAddr, tmpData, Len);
 }
 
-EN_RN8209_Read_Write_Status RN8209_Read_Reg_Swap(EN_RN8209_REG_ADDR RegAddr)
+EN_Global_Status RN8209_Read_Reg_Swap(EN_RN8209_REG_ADDR RegAddr)
 {
 	return RN8209_Read_Reg(RegAddr);
 }

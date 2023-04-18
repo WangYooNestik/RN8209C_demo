@@ -13,15 +13,6 @@ extern u16 RN8209_CheckSum;
 
 #define RN8209_BUF_SIZE UART3_BUF_SIZE
 
-typedef enum{
-	Status_Success = 0,
-	Status_Error,
-	Status_Timeout,
-	Status_ProtocolError,
-	Status_Enable,
-	Status_Wait,
-}EN_RN8209_Read_Write_Status;
-
 //---- RN8209 寄存器缓存----//
 
 #define u24 u32
@@ -121,8 +112,8 @@ typedef struct{
 extern const ST_RN8209_SYSCTL RN8209_SysCtl;
 
 
-EN_RN8209_Read_Write_Status RN8209_Write_Reg_Swap(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len);
-EN_RN8209_Read_Write_Status RN8209_Read_Reg_Swap(EN_RN8209_REG_ADDR RegAddr);
+EN_Global_Status RN8209_Write_Reg_Swap(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len);
+EN_Global_Status RN8209_Read_Reg_Swap(EN_RN8209_REG_ADDR RegAddr);
 
 #endif
 
