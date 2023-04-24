@@ -15,7 +15,6 @@ typedef enum{
 
 
 void RN8209_Calibrate_Offset_Set_Type(EN_RN8209_CLB_OFFSET_TYPE Ch);
-void RN8209_Init_Calibrate_Offset_State(void);
 bool RN8209_Calibrate_Offset_Handler(void);
 
 #endif

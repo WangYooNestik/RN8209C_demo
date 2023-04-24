@@ -1,6 +1,6 @@
 #include "RN8209_drv.h"
 #include "app_tool.h"
-#include "RN8209_func.h"
+#include "RN8209_init.h"
 
 
 

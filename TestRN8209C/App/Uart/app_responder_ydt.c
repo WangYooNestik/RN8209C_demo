@@ -27,7 +27,7 @@ static EN_CID2_RTN Parse_Responder_Cmd(void)
 	switch(UartRcv.Data.Temp1.pBuf[YDT_IDX_CID2])
 	{
 		case CID2_RCV_CALIBRATE_ZERO:
-			Set_RN8209_Main_Func(RN8209_CLB_ZERO);
+			RN8209_Calibrate_Zero_Set_Type();
 			break;
 		case CID2_RCV_CALIBRATE_GAIN:
 			TempGainType = UartRcv.Data.Temp1.pBuf[Idx1++];
@@ -36,7 +36,6 @@ static EN_CID2_RTN Parse_Responder_Cmd(void)
 				case RN8209_CLB_GAIN_VOLTAGE:
 				case RN8209_CLB_GAIN_CH_A:
 				case RN8209_CLB_GAIN_CH_B:
-					Set_RN8209_Main_Func(RN8209_CLB_GAIN);
 					RN8209_Calibrate_Gain_Set_Type(TempGainType);
 					break;
 				default:
@@ -50,7 +49,6 @@ static EN_CID2_RTN Parse_Responder_Cmd(void)
 			{
 				case RN8209_CLB_OFFSET_CH_A:
 				case RN8209_CLB_OFFSET_CH_B:
-					Set_RN8209_Main_Func(RN8209_CLB_OFFSET);
 					RN8209_Calibrate_Offset_Set_Type(TempOffsetType);
 					break;
 				default:
@@ -75,7 +73,7 @@ static EN_CID2_RTN Parse_Responder_Cmd(void)
 			Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 			break;
 		case CID2_RCV_CALIBRATE_STATUS:
-			if(Get_RN8209_Main_State() == RN8209_IDLE)
+			if(Get_RN8209_Main_State() == RN8209_RUN)
 			{
 				UartRcv.Data.Temp2.pBuf[Idx2++] = 0;
 			}else{

@@ -1,8 +1,9 @@
 #include "RN8209_calibrate_zero.h"
 #include "RN8209_read.h"
-#include "RN8209_func.h"
+#include "RN8209_init.h"
 #include "app_storage_RN8209.h"
 #include "app_storage.h"
+#include "RN8209_main.h"
 
 
 
@@ -125,9 +126,15 @@ typedef struct{
 
 static ST_RN8209_CLB_ZERO RN8209_CalibrateZero;
 
-void RN8209_Init_Calibrate_Zero_State(void)
+static void RN8209_Init_Calibrate_Zero_State(void)
 {
 	RN8209_CalibrateZero.State = RN8209_CLB_ZERO_INIT;
+}
+
+void RN8209_Calibrate_Zero_Set_Type(void)
+{
+	Set_RN8209_Main_State(RN8209_CLB_ZERO);
+	RN8209_Init_Calibrate_Zero_State();
 }
 
 //校准基准的时候，必须要将输入接地

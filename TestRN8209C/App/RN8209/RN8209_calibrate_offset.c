@@ -1,8 +1,9 @@
 #include "RN8209_calibrate_offset.h"
 #include "RN8209_read.h"
-#include "RN8209_func.h"
+#include "RN8209_init.h"
 #include "app_storage_RN8209.h"
 #include "app_storage.h"
+#include "RN8209_main.h"
 
 
 
@@ -96,6 +97,12 @@ typedef struct{
 
 static ST_RN8209_CLB_OFFSET RN8209_CalibrateOffset;
 
+
+static void RN8209_Init_Calibrate_Offset_State(void)
+{
+	RN8209_CalibrateOffset.State = RN8209_CLB_OFFSET_INIT;
+}
+
 void RN8209_Calibrate_Offset_Set_Type(EN_RN8209_CLB_OFFSET_TYPE Type)
 {
 	if(Type >= RN8209_CLB_OFFSET_MAX)
@@ -103,12 +110,9 @@ void RN8209_Calibrate_Offset_Set_Type(EN_RN8209_CLB_OFFSET_TYPE Type)
 		return;
 	}
 
+	Set_RN8209_Main_State(RN8209_CLB_OFFSET);
+	RN8209_Init_Calibrate_Offset_State();
 	RN8209_CalibrateOffset.Type = Type;
-}
-
-void RN8209_Init_Calibrate_Offset_State(void)
-{
-	RN8209_CalibrateOffset.State = RN8209_CLB_OFFSET_INIT;
 }
 
 bool RN8209_Calibrate_Offset_Handler(void)

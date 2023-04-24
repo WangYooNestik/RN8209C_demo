@@ -631,11 +631,6 @@
               <FilePath>..\App\RN8209\RN8209_drv.c</FilePath>
             </File>
             <File>
-              <FileName>RN8209_func.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\App\RN8209\RN8209_func.c</FilePath>
-            </File>
-            <File>
               <FileName>RN8209_read.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\App\RN8209\RN8209_read.c</FilePath>
@@ -659,6 +654,11 @@
               <FileName>RN8209_calibrate_offset.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\App\RN8209\RN8209_calibrate_offset.c</FilePath>
+            </File>
+            <File>
+              <FileName>RN8209_init.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\RN8209\RN8209_init.c</FilePath>
             </File>
           </Files>
         </Group>

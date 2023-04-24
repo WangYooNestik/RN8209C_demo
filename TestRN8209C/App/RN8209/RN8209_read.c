@@ -1,6 +1,6 @@
 #include "RN8209_read.h"
 #include "app_storage_RN8209.h"
-#include "RN8209_func.h"
+#include "RN8209_init.h"
 #include "RN8209_main.h"
 #include "app_storage.h"
 
@@ -45,7 +45,7 @@ void RN8209_Read(void)
 		{
 			if(Status[i] == Status_Error)
 			{
-				Set_RN8209_Main_Func(RN8209_INIT);
+				Set_RN8209_Main_State(RN8209_INIT);
 				return;
 			}
 		}

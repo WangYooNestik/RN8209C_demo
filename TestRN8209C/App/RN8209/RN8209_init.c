@@ -1,4 +1,4 @@
-#include "RN8209_func.h"
+#include "RN8209_init.h"
 #include "RN8209_drv.h"
 #include "app_storage_RN8209.h"
 
@@ -87,7 +87,7 @@ static void RN8209_Write_Regs(EN_RN8209_INIT_FUNC Func)
 		case RN8209_SET_DC_OFFSET:
 			RN8209_Write_Reg(ADDR_DCIAH, (u8*)&RN8209_CtlReg.DCIAH, 2);		//电流a直流偏差
 			RN8209_Write_Reg(ADDR_DCIBH, (u8*)&RN8209_CtlReg.DCIBH, 2);		//电流b直流偏差
-			RN8209_Write_Reg(ADDR_DCUH, (u8*)&RN8209_CtlReg.DCUH, 2);			//电压直流偏差
+			RN8209_Write_Reg(ADDR_DCUH, (u8*)&RN8209_CtlReg.DCUH, 2);		//电压直流偏差
 			RN8209_Write_Reg(ADDR_DCL, (u8*)&RN8209_CtlReg.DCL, 2);
 			break;
 		case RN8209_SET_EVD:
@@ -222,7 +222,7 @@ void RN8209_Init(void)
 //	RN8209_Write_Reg(ADDR_D2FPH, (u8*)&RN8209_CtlReg.D2FPH, 2);
 	RN8209_Write_Reg(ADDR_DCIAH, (u8*)&RN8209_CtlReg.DCIAH, 2);		//电流a直流偏差
 	RN8209_Write_Reg(ADDR_DCIBH, (u8*)&RN8209_CtlReg.DCIBH, 2);		//电流b直流偏差
-	RN8209_Write_Reg(ADDR_DCUH, (u8*)&RN8209_CtlReg.DCUH, 2);			//电压直流偏差
+	RN8209_Write_Reg(ADDR_DCUH, (u8*)&RN8209_CtlReg.DCUH, 2);		//电压直流偏差
 	RN8209_Write_Reg(ADDR_DCL, (u8*)&RN8209_CtlReg.DCL, 2);
 	RN8209_Write_Reg(ADDR_EMUCON2, (u8*)&RN8209_CtlReg.EMUCON2, 2);
 	RN8209_Write_Reg(ADDR_SysCtl, (u8*)&RN8209_SysCtl.Lock, 1);

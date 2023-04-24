@@ -7,7 +7,7 @@
 
 
 
-void RN8209_Init_Calibrate_Zero_State(void);
+void RN8209_Calibrate_Zero_Set_Type(void);
 bool RN8209_Calibrate_Zero_Handler(void);
 
 #endif

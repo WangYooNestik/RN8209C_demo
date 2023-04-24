@@ -1,5 +1,5 @@
-#ifndef _RN8209_FUNC_H_
-#define _RN8209_FUNC_H_
+#ifndef _RN8209_INIT_H_
+#define _RN8209_INIT_H_
 
 #include "app_global.h"
 

@@ -1,8 +1,9 @@
 #include "RN8209_calibrate_gain.h"
 #include "RN8209_read.h"
-#include "RN8209_func.h"
+#include "RN8209_init.h"
 #include "app_storage_RN8209.h"
 #include "app_storage.h"
+#include "RN8209_main.h"
 
 
 
@@ -106,6 +107,12 @@ typedef struct{
 
 static ST_RN8209_CLB_GAIN RN8209_CalibrateGain;
 
+
+static void RN8209_Init_Calibrate_Gain_State(void)
+{
+	RN8209_CalibrateGain.State = RN8209_CLB_GAIN_INIT;
+}
+
 void RN8209_Calibrate_Gain_Set_Type(EN_RN8209_CLB_GAIN_TYPE Type)
 {
 	if(Type >= RN8209_CLB_GAIN_MAX)
@@ -113,12 +120,9 @@ void RN8209_Calibrate_Gain_Set_Type(EN_RN8209_CLB_GAIN_TYPE Type)
 		return;
 	}
 
+	Set_RN8209_Main_State(RN8209_CLB_GAIN);
+	RN8209_Init_Calibrate_Gain_State();
 	RN8209_CalibrateGain.Type = Type;
-}
-
-void RN8209_Init_Calibrate_Gain_State(void)
-{
-	RN8209_CalibrateGain.State = RN8209_CLB_GAIN_INIT;
 }
 
 bool RN8209_Calibrate_Gain_Handler(void)

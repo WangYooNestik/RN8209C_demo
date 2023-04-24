@@ -16,7 +16,6 @@ typedef enum{
 
 
 void RN8209_Calibrate_Gain_Set_Type(EN_RN8209_CLB_GAIN_TYPE Ch);
-void RN8209_Init_Calibrate_Gain_State(void);
 bool RN8209_Calibrate_Gain_Handler(void);
 
 #endif
