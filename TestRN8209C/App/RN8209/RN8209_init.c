@@ -6,7 +6,7 @@
 
 
 
-#define ENABLE_IB_GAIN_REG 1
+#define ENABLE_IB_GAIN_REG 0
 
 static void RN8209_Init_Ctl_Reg_Variables(void)
 {

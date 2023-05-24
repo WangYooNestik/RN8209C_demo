@@ -166,8 +166,9 @@ EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 
 
 
-static bool RN8209_Check_Reg_Pack(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
+static EN_Global_Status RN8209_Check_Reg_Pack(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 {
+	EN_Global_Status Status = Status_Error;
 	u8 tmpData[RN8209_BUF_SIZE];
 	u8 i = 0 ;
 	u8 TempCSM = 0;
@@ -183,13 +184,13 @@ static bool RN8209_Check_Reg_Pack(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 
 	if(Data[Len-1] == TempCSM)
 	{
-		return true;
+		Status = Status_Success;
 	}
 
-	return false;
+	return Status;
 }
 
-static EN_Global_Status RN8209_ParseCmd(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
+static EN_Global_Status RN8209_Parse_Cmd(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
 {
 	EN_Global_Status Status = Status_Success;
 	u32 TempReg = 0;
@@ -293,14 +294,13 @@ EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
 
 			Uart3.Rx.Len = 0;
 
-			if(RN8209_Check_Reg_Pack(RegAddr, tmpData, Len))
+			Status = RN8209_Check_Reg_Pack(RegAddr, tmpData, Len);
+			if(Status == Status_Success)
 			{
-				Status = RN8209_ParseCmd(RegAddr, tmpData, (Len-1));
-				break;
-			}else{
-				Status = Status_Error;
-				break;
+				Status = RN8209_Parse_Cmd(RegAddr, tmpData, (Len-1));
 			}
+
+			break;
 		}
 		else if(Tick_Timeout(&WaitTick, TIME_25MS))
 		{
