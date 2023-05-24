@@ -3,6 +3,7 @@
 #include "app_test.h"
 #include "app_tool.h"
 #include "RN8209_main.h"
+#include "RN8209_calibrate_zero.h"
 #include "RN8209_calibrate_gain.h"
 #include "RN8209_calibrate_offset.h"
 #include "RN8209_read.h"

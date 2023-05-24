@@ -185,20 +185,22 @@ u16 RN8209_Init_Func(EN_RN8209_INIT_FUNC Func)
 	return CheckSum;
 }
 
-void RN8209_Init(void)
+u16 RN8209_Init(void)
 {
+	u16 CheckSum = 0;
+
 	RN8209_Init_Variables();
 
 #if 1
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_RESET);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_DC_OFFSET);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_EVD);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_GAIN);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_POWER_OFFSET);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_ENERGY);
-	RN8209_CheckSum = ~RN8209_CheckSum;
+	CheckSum += RN8209_Init_Func(RN8209_RESET);
+	CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
+	CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
+	CheckSum += RN8209_Init_Func(RN8209_SET_DC_OFFSET);
+	CheckSum += RN8209_Init_Func(RN8209_SET_EVD);
+	CheckSum += RN8209_Init_Func(RN8209_SET_GAIN);
+	CheckSum += RN8209_Init_Func(RN8209_SET_POWER_OFFSET);
+	CheckSum += RN8209_Init_Func(RN8209_SET_ENERGY);
+	CheckSum = ~CheckSum;
 #else //完整的寄存器列表
 	RN8209_Write_Reg(ADDR_SysCtl, (u8*)&RN8209_SysCtl.Unlock, 1);
 	RN8209_Write_Reg(ADDR_SYSCON, (u8*)&RN8209_CtlReg.SYSCON, 2);
@@ -227,6 +229,8 @@ void RN8209_Init(void)
 	RN8209_Write_Reg(ADDR_EMUCON2, (u8*)&RN8209_CtlReg.EMUCON2, 2);
 	RN8209_Write_Reg(ADDR_SysCtl, (u8*)&RN8209_SysCtl.Lock, 1);
 #endif
+
+	return CheckSum;
 }
 
 

@@ -53,7 +53,7 @@ typedef enum{
 
 void RN8209_Init_Variables(void);
 u16 RN8209_Init_Func(EN_RN8209_INIT_FUNC Func);
-void RN8209_Init(void);
+u16 RN8209_Init(void);
 
 #endif
 

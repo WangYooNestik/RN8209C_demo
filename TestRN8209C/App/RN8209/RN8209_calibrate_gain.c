@@ -9,16 +9,20 @@
 
 
 
-static void RN8209_Calibrate_Gain_Init(void)
+static u16 RN8209_Calibrate_Gain_Init(void)
 {
+	u16 CheckSum = 0;
+
 	RN8209_Init_Variables();
 
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_RESET);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_DC_OFFSET);
-	RN8209_CheckSum += RN8209_Init_Func(RN8209_SET_EVD);
-	RN8209_CheckSum = ~RN8209_CheckSum;
+	CheckSum += RN8209_Init_Func(RN8209_RESET);
+	CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
+	CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
+	CheckSum += RN8209_Init_Func(RN8209_SET_DC_OFFSET);
+	CheckSum += RN8209_Init_Func(RN8209_SET_EVD);
+	CheckSum = ~CheckSum;
+
+	return CheckSum;
 }
 
 static void RN8209_Calibrate_Voltage_Gain(void)
@@ -133,7 +137,7 @@ bool RN8209_Calibrate_Gain_Handler(void)
 	switch(RN8209_CalibrateGain.State)
 	{
 		case RN8209_CLB_GAIN_INIT:
-			RN8209_Calibrate_Gain_Init();
+			RN8209_CheckSum = RN8209_Calibrate_Gain_Init();
 			Reset_Tick(&WaitTick);
 			RN8209_CalibrateGain.State = RN8209_CLB_GAIN_WAIT_1;
 			break;
