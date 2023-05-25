@@ -58,6 +58,13 @@ void RN8209_Init_Variables(void)
 	RN8209_Init_Data_Reg_Variables();
 }
 
+static void RN8209_Set_SysCtl(EN_RN8209_SC SysCtl)
+{
+	RN8209_Reg.SSC.SysCtl = SysCtl;
+
+	RN8209_Write_Reg(ADDR_SysCtl);
+}
+
 static void RN8209_Write_Regs(EN_RN8209_INIT_FUNC Func)
 {
 	if(Func >= RN8209_INIT_FUNC_MAX)
@@ -65,14 +72,12 @@ static void RN8209_Write_Regs(EN_RN8209_INIT_FUNC Func)
 		return;
 	}
 
-	RN8209_Reg.SSC.SysCtl = SC_UNLOCK;
-	RN8209_Write_Reg(ADDR_SysCtl);
+	RN8209_Set_SysCtl(SC_UNLOCK);
 
 	switch(Func)
 	{
 		case RN8209_RESET:
-			RN8209_Reg.SSC.SysCtl = SC_RESET;
-			RN8209_Write_Reg(ADDR_SysCtl);
+			RN8209_Set_SysCtl(SC_RESET);
 			break;
 		case RN8209_SET_CTL_REG:
 			RN8209_Write_Reg(ADDR_SYSCON);
@@ -113,8 +118,7 @@ static void RN8209_Write_Regs(EN_RN8209_INIT_FUNC Func)
 			break;
 	}
 
-	RN8209_Reg.SSC.SysCtl = SC_LOCK;
-	RN8209_Write_Reg(ADDR_SysCtl);
+	RN8209_Set_SysCtl(SC_LOCK);
 }
 
 static u16 RN8209_Calculate_CheckSum(EN_RN8209_INIT_FUNC Func)
