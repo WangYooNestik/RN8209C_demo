@@ -46,19 +46,19 @@ static void RN8209_Calibrate_Zero_CALC_DC_Offset(void)
 {
 	RN8209_CalibrateZeroData_1 = RN8209_AverageData;
 
-	RN8209_CtlReg.DCUH = (RN8209_CalibrateZeroData_1.URMS >> 8);
-	RN8209_CtlReg.DCL |= (((RN8209_CalibrateZeroData_1.URMS >> 4) & 0x0f) << 8);
+	RN8209_Reg.Ctl.DCUH = (RN8209_CalibrateZeroData_1.URMS >> 8);
+	RN8209_Reg.Ctl.DCL |= (((RN8209_CalibrateZeroData_1.URMS >> 4) & 0x0f) << 8);
 
-	RN8209_CtlReg.DCIAH = (RN8209_CalibrateZeroData_1.IARMS >> 8);
-	RN8209_CtlReg.DCL |= (((RN8209_CalibrateZeroData_1.IARMS >> 4) & 0x0f) << 0);
+	RN8209_Reg.Ctl.DCIAH = (RN8209_CalibrateZeroData_1.IARMS >> 8);
+	RN8209_Reg.Ctl.DCL |= (((RN8209_CalibrateZeroData_1.IARMS >> 4) & 0x0f) << 0);
 
-	RN8209_CtlReg.DCIBH = (RN8209_CalibrateZeroData_1.IBRMS >> 8);
-	RN8209_CtlReg.DCL |= (((RN8209_CalibrateZeroData_1.IBRMS >> 4) & 0x0f) << 4);
+	RN8209_Reg.Ctl.DCIBH = (RN8209_CalibrateZeroData_1.IBRMS >> 8);
+	RN8209_Reg.Ctl.DCL |= (((RN8209_CalibrateZeroData_1.IBRMS >> 4) & 0x0f) << 4);
 
-	Storage_RN8209.CtlReg.DCUH = RN8209_CtlReg.DCUH;
-	Storage_RN8209.CtlReg.DCIAH = RN8209_CtlReg.DCIAH;
-	Storage_RN8209.CtlReg.DCIBH = RN8209_CtlReg.DCIBH;
-	Storage_RN8209.CtlReg.DCL = RN8209_CtlReg.DCL;
+	Storage_RN8209.CtlReg.DCUH = RN8209_Reg.Ctl.DCUH;
+	Storage_RN8209.CtlReg.DCIAH = RN8209_Reg.Ctl.DCIAH;
+	Storage_RN8209.CtlReg.DCIBH = RN8209_Reg.Ctl.DCIBH;
+	Storage_RN8209.CtlReg.DCL = RN8209_Reg.Ctl.DCL;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }
@@ -72,31 +72,31 @@ static bool RN8209_Calibrate_Zero_Check_DC_Offset(void)
 	if(RN8209_CalibrateZeroData_1.URMS / RN8209_CalibrateZeroData_2.URMS < 1.0f)
 	{
 		RN8209_CalibrateZeroData_1.URMS = ~RN8209_CalibrateZeroData_1.URMS;
-		RN8209_CtlReg.DCUH = (RN8209_CalibrateZeroData_1.URMS >> 8);
-		RN8209_CtlReg.DCL |= (((RN8209_CalibrateZeroData_1.URMS >> 4) & 0x0f) << 8);
+		RN8209_Reg.Ctl.DCUH = (RN8209_CalibrateZeroData_1.URMS >> 8);
+		RN8209_Reg.Ctl.DCL |= (((RN8209_CalibrateZeroData_1.URMS >> 4) & 0x0f) << 8);
 		NeedResetReg = true;
 	}
 
 	if(RN8209_CalibrateZeroData_1.IARMS / RN8209_CalibrateZeroData_2.IARMS < 1.0f)
 	{
 		RN8209_CalibrateZeroData_1.IARMS = ~RN8209_CalibrateZeroData_1.IARMS;
-		RN8209_CtlReg.DCIAH = (RN8209_CalibrateZeroData_1.IARMS >> 8);
-		RN8209_CtlReg.DCL |= (((RN8209_CalibrateZeroData_1.IARMS >> 4) & 0x0f) << 0);
+		RN8209_Reg.Ctl.DCIAH = (RN8209_CalibrateZeroData_1.IARMS >> 8);
+		RN8209_Reg.Ctl.DCL |= (((RN8209_CalibrateZeroData_1.IARMS >> 4) & 0x0f) << 0);
 		NeedResetReg = true;
 	}
 
 	if(RN8209_CalibrateZeroData_1.IBRMS / RN8209_CalibrateZeroData_2.IBRMS < 1.0f)
 	{
 		RN8209_CalibrateZeroData_1.IBRMS = ~RN8209_CalibrateZeroData_1.IBRMS;
-		RN8209_CtlReg.DCIBH = (RN8209_CalibrateZeroData_1.IBRMS >> 8);
-		RN8209_CtlReg.DCL |= (((RN8209_CalibrateZeroData_1.IBRMS >> 4) & 0x0f) << 4);
+		RN8209_Reg.Ctl.DCIBH = (RN8209_CalibrateZeroData_1.IBRMS >> 8);
+		RN8209_Reg.Ctl.DCL |= (((RN8209_CalibrateZeroData_1.IBRMS >> 4) & 0x0f) << 4);
 		NeedResetReg = true;
 	}
 
-	Storage_RN8209.CtlReg.DCUH = RN8209_CtlReg.DCUH;
-	Storage_RN8209.CtlReg.DCIAH = RN8209_CtlReg.DCIAH;
-	Storage_RN8209.CtlReg.DCIBH = RN8209_CtlReg.DCIBH;
-	Storage_RN8209.CtlReg.DCL = RN8209_CtlReg.DCL;
+	Storage_RN8209.CtlReg.DCUH = RN8209_Reg.Ctl.DCUH;
+	Storage_RN8209.CtlReg.DCIAH = RN8209_Reg.Ctl.DCIAH;
+	Storage_RN8209.CtlReg.DCIBH = RN8209_Reg.Ctl.DCIBH;
+	Storage_RN8209.CtlReg.DCL = RN8209_Reg.Ctl.DCL;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 
@@ -105,12 +105,12 @@ static bool RN8209_Calibrate_Zero_Check_DC_Offset(void)
 
 static void RN8209_Calibrate_Zero_CALC_Effective_Offset(void)
 {
-	RN8209_CtlReg.IARMSOS = (~((RN8209_AverageData.IARMS * RN8209_AverageData.IARMS) / 256));
+	RN8209_Reg.Ctl.IARMSOS = (~((RN8209_AverageData.IARMS * RN8209_AverageData.IARMS) / 256));
 
-	RN8209_CtlReg.IBRMSOS = (~((RN8209_AverageData.IBRMS * RN8209_AverageData.IBRMS) / 256));
+	RN8209_Reg.Ctl.IBRMSOS = (~((RN8209_AverageData.IBRMS * RN8209_AverageData.IBRMS) / 256));
 
-	Storage_RN8209.CtlReg.IARMSOS = RN8209_CtlReg.IARMSOS;
-	Storage_RN8209.CtlReg.IBRMSOS = RN8209_CtlReg.IBRMSOS;
+	Storage_RN8209.CtlReg.IARMSOS = RN8209_Reg.Ctl.IARMSOS;
+	Storage_RN8209.CtlReg.IBRMSOS = RN8209_Reg.Ctl.IBRMSOS;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }

@@ -32,11 +32,11 @@ static void RN8209_Calibrate_Ch_A_Power_Offset(void)
 	s16 TempGPQA = 0;
 	float PA_Offset = 0.0f;
 
-	if(RN8209_CtlReg.GPQA > 0)
+	if(RN8209_Reg.Ctl.GPQA > 0)
 	{
-		TempGPQA = (RN8209_CtlReg.GPQA / 0x8000);
+		TempGPQA = (RN8209_Reg.Ctl.GPQA / 0x8000);
 	}else{
-		TempGPQA = (RN8209_CtlReg.GPQA - 0x10000) / 0x8000;
+		TempGPQA = (RN8209_Reg.Ctl.GPQA - 0x10000) / 0x8000;
 	}
 
 	TempPowerA = System.Voltage * System.Current_A;
@@ -45,12 +45,12 @@ static void RN8209_Calibrate_Ch_A_Power_Offset(void)
 	PA_Offset = (TempPowerA / KP_VALUE - RN8209_AverageData.PowerPA) / (1 + TempGPQA);
 	if(PA_Offset > 0.0f)
 	{
-		RN8209_CtlReg.APOSA = PA_Offset;
+		RN8209_Reg.Ctl.APOSA = PA_Offset;
 	}else{
-		RN8209_CtlReg.APOSA = PA_Offset + 0x10000;
+		RN8209_Reg.Ctl.APOSA = PA_Offset + 0x10000;
 	}
 
-	Storage_RN8209.CtlReg.APOSA = RN8209_CtlReg.APOSA;
+	Storage_RN8209.CtlReg.APOSA = RN8209_Reg.Ctl.APOSA;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }
@@ -61,11 +61,11 @@ static void RN8209_Calibrate_Ch_B_Power_Offset(void)
 	s16 TempGPQB = 0;
 	float PB_Offset = 0.0f;
 
-	if(RN8209_CtlReg.GPQB > 0)
+	if(RN8209_Reg.Ctl.GPQB > 0)
 	{
-		TempGPQB = (RN8209_CtlReg.GPQB / 0x8000);
+		TempGPQB = (RN8209_Reg.Ctl.GPQB / 0x8000);
 	}else{
-		TempGPQB = (RN8209_CtlReg.GPQB - 0x10000) / 0x8000;
+		TempGPQB = (RN8209_Reg.Ctl.GPQB - 0x10000) / 0x8000;
 	}
 
 	TempPowerB = System.Voltage * System.Current_B;
@@ -74,12 +74,12 @@ static void RN8209_Calibrate_Ch_B_Power_Offset(void)
 	PB_Offset = (TempPowerB / KP_VALUE - RN8209_AverageData.PowerPB) / (1 + TempGPQB);
 	if(PB_Offset > 0.0f)
 	{
-		RN8209_CtlReg.APOSB = PB_Offset;
+		RN8209_Reg.Ctl.APOSB = PB_Offset;
 	}else{
-		RN8209_CtlReg.APOSB = PB_Offset + 0x10000;
+		RN8209_Reg.Ctl.APOSB = PB_Offset + 0x10000;
 	}
 
-	Storage_RN8209.CtlReg.APOSB = RN8209_CtlReg.APOSB;
+	Storage_RN8209.CtlReg.APOSB = RN8209_Reg.Ctl.APOSB;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }

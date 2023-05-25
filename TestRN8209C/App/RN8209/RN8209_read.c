@@ -1,8 +1,10 @@
 #include "RN8209_read.h"
-#include "app_storage_RN8209.h"
+#include "RN8209_drv.h"
 #include "RN8209_init.h"
 #include "RN8209_main.h"
 #include "app_storage.h"
+#include "app_storage_RN8209.h"
+#include "gpio.h"
 
 
 
@@ -52,33 +54,33 @@ void RN8209_Read(void)
 
 		if(Tick_Timeout(&WaitTick1, TIME_5S))
 		{
-			Storage_RN8209.DataReg.PFCnt = RN8209_RegRcv.Data.PFCnt;
-			Storage_RN8209.DataReg.DFcnt = RN8209_RegRcv.Data.DFcnt;
+			Storage_RN8209.DataReg.PFCnt = RN8209_Reg.Data.PFCnt;
+			Storage_RN8209.DataReg.DFcnt = RN8209_Reg.Data.DFcnt;
 
 			Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 		}
 
-		if(RN8209_RegRcv.Data.EnergyP)
+		if(RN8209_Reg.Data.EnergyP)
 		{
-			Storage_RN8209.EA_Count += RN8209_RegRcv.Data.EnergyP;
+			Storage_RN8209.EA_Count += RN8209_Reg.Data.EnergyP;
 
 			Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 		}
 
-		if(RN8209_RegRcv.Data.EnergyD)
+		if(RN8209_Reg.Data.EnergyD)
 		{
-			Storage_RN8209.EB_Count += RN8209_RegRcv.Data.EnergyD;
+			Storage_RN8209.EB_Count += RN8209_Reg.Data.EnergyD;
 
 			Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 		}
 #if 1
-		TempDataBuf[Idx] = RN8209_RegRcv.Data;
+		TempDataBuf[Idx] = RN8209_Reg.Data;
 #else
-		TempDataBuf[Idx].URMS = RN8209_RegRcv.Data.URMS;
-		TempDataBuf[Idx].IARMS = RN8209_RegRcv.Data.IARMS;
-		TempDataBuf[Idx].PowerPA = RN8209_RegRcv.Data.PowerPA;
-		TempDataBuf[Idx].IBRMS = RN8209_RegRcv.Data.IBRMS;
-		TempDataBuf[Idx].PowerPB = RN8209_RegRcv.Data.PowerPB;
+		TempDataBuf[Idx].URMS = RN8209_Reg.Data.URMS;
+		TempDataBuf[Idx].IARMS = RN8209_Reg.Data.IARMS;
+		TempDataBuf[Idx].PowerPA = RN8209_Reg.Data.PowerPA;
+		TempDataBuf[Idx].IBRMS = RN8209_Reg.Data.IBRMS;
+		TempDataBuf[Idx].PowerPB = RN8209_Reg.Data.PowerPB;
 #endif
 
 		if(++Idx >= SAMP_TIMES)

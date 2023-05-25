@@ -53,12 +53,12 @@ static void RN8209_Calibrate_Ch_A_Power_Gain(void)
 	PA_Gain = 0 - PA_Gain;
 	if(PA_Gain > 0.0f)
 	{
-		RN8209_CtlReg.GPQA = PA_Gain * 0x8000;
+		RN8209_Reg.Ctl.GPQA = PA_Gain * 0x8000;
 	}else{
-		RN8209_CtlReg.GPQA = PA_Gain * 0x8000 + 0x10000;
+		RN8209_Reg.Ctl.GPQA = PA_Gain * 0x8000 + 0x10000;
 	}
 
-	Storage_RN8209.CtlReg.GPQA = RN8209_CtlReg.GPQA;
+	Storage_RN8209.CtlReg.GPQA = RN8209_Reg.Ctl.GPQA;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }
@@ -84,12 +84,12 @@ static void RN8209_Calibrate_Ch_B_Power_Gain(void)
 	PB_Gain = 0 - PB_Gain;
 	if(PB_Gain > 0.0f)
 	{
-		RN8209_CtlReg.GPQB = PB_Gain * 0x8000;
+		RN8209_Reg.Ctl.GPQB = PB_Gain * 0x8000;
 	}else{
-		RN8209_CtlReg.GPQB = PB_Gain * 0x8000 + 0x10000;
+		RN8209_Reg.Ctl.GPQB = PB_Gain * 0x8000 + 0x10000;
 	}
 
-	Storage_RN8209.CtlReg.GPQB = RN8209_CtlReg.GPQB;
+	Storage_RN8209.CtlReg.GPQB = RN8209_Reg.Ctl.GPQB;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }

@@ -2,7 +2,7 @@
 #define _APP_STORAGE_RN8209_H_
 
 #include "app_storage_drv.h"
-#include "RN8209_drv.h"
+#include "RN8209_reg.h"
 
 
 
@@ -11,12 +11,11 @@
 typedef struct{
 	ST_STORAGE_CHECK StorageCheck;
 	ST_RN8209_CTL_REG CtlReg;
+	ST_RN8209_DATA_REG DataReg;
 	float U_Gain;
 	float IA_Gain;
 	float IB_Gain;
-
-	ST_RN8209_DATA_REG DataReg;
-	u64 EA_Count;
+	u64 EA_Count;			//总电量
 	u64 EB_Count;
 }ST_STORAGE_RN8209;
 

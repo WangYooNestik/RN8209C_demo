@@ -1,11 +1,14 @@
 #ifndef _RN8209_REG_ADDR_H_
 #define _RN8209_REG_ADDR_H_
 
+#include "app_global.h"
+
 
 
 
 
 //---- RN8209 地址定义----//
+
 typedef enum{
 	ADDR_SYSCON = 0x00,		//系统控制寄存器
 	ADDR_EMUCON = 0x01,		//计量控制寄存器
@@ -50,9 +53,11 @@ typedef enum{
 	ADDR_SPL_IB = 0x31,		//IB通道电流采样值
 	ADDR_SPL_U = 0x32,		//U通道电流采样值
 	ADDR_UFreq2 = 0x35,
+
 	ADDR_IE = 0x40,
 	ADDR_IF = 0x41,
 	ADDR_RIF = 0x42,
+
 	ADDR_SysStatus = 0x43,
 	ADDR_RData = 0x44,
 	ADDR_WData = 0x45,
