@@ -66,55 +66,55 @@ static void RN8209_Write_Regs(EN_RN8209_INIT_FUNC Func)
 	}
 
 	RN8209_Reg.SSC.SysCtl = SC_UNLOCK;
-	RN8209_Write_Reg(ADDR_SysCtl, (u8*)&RN8209_Reg.SSC.SysCtl, 1);
+	RN8209_Write_Reg(ADDR_SysCtl);
 
 	switch(Func)
 	{
 		case RN8209_RESET:
 			RN8209_Reg.SSC.SysCtl = SC_RESET;
-			RN8209_Write_Reg(ADDR_SysCtl, (u8*)&RN8209_Reg.SSC.SysCtl, 1);
+			RN8209_Write_Reg(ADDR_SysCtl);
 			break;
 		case RN8209_SET_CTL_REG:
-			RN8209_Write_Reg(ADDR_SYSCON, (u8*)&RN8209_Reg.Ctl.SYSCON, 2);
-			RN8209_Write_Reg(ADDR_EMUCON, (u8*)&RN8209_Reg.Ctl.EMUCON, 2);
-			RN8209_Write_Reg(ADDR_HFConst, (u8*)&RN8209_Reg.Ctl.HFConst, 2);
-			RN8209_Write_Reg(ADDR_EMUCON2, (u8*)&RN8209_Reg.Ctl.EMUCON2, 2);
+			RN8209_Write_Reg(ADDR_SYSCON);
+			RN8209_Write_Reg(ADDR_EMUCON);
+			RN8209_Write_Reg(ADDR_HFConst);
+			RN8209_Write_Reg(ADDR_EMUCON2);
 			break;
 		case RN8209_SET_POWER_START:
-			RN8209_Write_Reg(ADDR_PStart, (u8*)&RN8209_Reg.Ctl.PStart, 2);
-			RN8209_Write_Reg(ADDR_DStart, (u8*)&RN8209_Reg.Ctl.DStart, 2);
+			RN8209_Write_Reg(ADDR_PStart);
+			RN8209_Write_Reg(ADDR_DStart);
 			break;
 		case RN8209_SET_IB_GAIN:
-			RN8209_Write_Reg(ADDR_IBGain, (u8*)&RN8209_Reg.Ctl.IBGain, 2);
+			RN8209_Write_Reg(ADDR_IBGain);
 			break;
 		case RN8209_SET_DC_OFFSET:
-			RN8209_Write_Reg(ADDR_DCIAH, (u8*)&RN8209_Reg.Ctl.DCIAH, 2);		//电流a直流偏差
-			RN8209_Write_Reg(ADDR_DCIBH, (u8*)&RN8209_Reg.Ctl.DCIBH, 2);		//电流b直流偏差
-			RN8209_Write_Reg(ADDR_DCUH, (u8*)&RN8209_Reg.Ctl.DCUH, 2);		//电压直流偏差
-			RN8209_Write_Reg(ADDR_DCL, (u8*)&RN8209_Reg.Ctl.DCL, 2);
+			RN8209_Write_Reg(ADDR_DCIAH);		//电流a直流偏差
+			RN8209_Write_Reg(ADDR_DCIBH);		//电流b直流偏差
+			RN8209_Write_Reg(ADDR_DCUH);		//电压直流偏差
+			RN8209_Write_Reg(ADDR_DCL);
 			break;
 		case RN8209_SET_EVD:
-			RN8209_Write_Reg(ADDR_IARMSOS, (u8*)&RN8209_Reg.Ctl.IARMSOS, 2);	//电流a有效值偏差
-			RN8209_Write_Reg(ADDR_IBRMSOS, (u8*)&RN8209_Reg.Ctl.IBRMSOS, 2);	//电流b有效值偏差
+			RN8209_Write_Reg(ADDR_IARMSOS);		//电流a有效值偏差
+			RN8209_Write_Reg(ADDR_IBRMSOS);		//电流b有效值偏差
 			break;
 		case RN8209_SET_GAIN:
-			RN8209_Write_Reg(ADDR_GPQA, (u8*)&RN8209_Reg.Ctl.GPQA, 2);
-			RN8209_Write_Reg(ADDR_GPQB, (u8*)&RN8209_Reg.Ctl.GPQB, 2);
+			RN8209_Write_Reg(ADDR_GPQA);
+			RN8209_Write_Reg(ADDR_GPQB);
 			break;
 		case RN8209_SET_POWER_OFFSET:
-			RN8209_Write_Reg(ADDR_APOSA, (u8*)&RN8209_Reg.Ctl.APOSA, 2);
-			RN8209_Write_Reg(ADDR_APOSB, (u8*)&RN8209_Reg.Ctl.APOSB, 2);
+			RN8209_Write_Reg(ADDR_APOSA);
+			RN8209_Write_Reg(ADDR_APOSB);
 			break;
 		case RN8209_SET_ENERGY:
-			RN8209_Write_Reg(ADDR_PFCnt, (u8*)&RN8209_Reg.Data.PFCnt, 2);
-			RN8209_Write_Reg(ADDR_DFcnt, (u8*)&RN8209_Reg.Data.DFcnt, 2);
+			RN8209_Write_Reg(ADDR_PFCnt);
+			RN8209_Write_Reg(ADDR_DFcnt);
 			break;
 		default:
 			break;
 	}
 
 	RN8209_Reg.SSC.SysCtl = SC_LOCK;
-	RN8209_Write_Reg(ADDR_SysCtl, (u8*)&RN8209_Reg.SSC.SysCtl, 1);
+	RN8209_Write_Reg(ADDR_SysCtl);
 }
 
 static u16 RN8209_Calculate_CheckSum(EN_RN8209_INIT_FUNC Func)

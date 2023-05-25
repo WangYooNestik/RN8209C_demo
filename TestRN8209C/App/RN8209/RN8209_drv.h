@@ -7,7 +7,7 @@
 
 
 
-EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len);
+EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr);
 EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr);
 
 #endif

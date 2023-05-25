@@ -25,37 +25,26 @@ static void RN8209_Send(u8 Data[], u8 Len)
 
 
 
-static void RN8209_Swap_Data(u8 S_Data[], u8 Len, u8 O_Data[])
-{
-	u8 i = 0 ;
-
-	for(i=0; i<Len; i++)
-	{
-		O_Data[Len-1-i] = S_Data[i];
-	}
-}
-
 //****************************************************
 //RN8209写寄存器
 //****************************************************
-EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
+EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr)
 {
 	u8 tmpData1[RN8209_BUF_SIZE] = {0};
 	u8 tmpData2[RN8209_BUF_SIZE] = {0};
-	u8 i = 0 ;
+	u8 Len = 0;
+	u8 i = 0;
 
 	if(If_Found_RN8209_Reg(RegAddr) == false)
 	{
 		return Status_Error;
 	}
 
+	Len = RN8209_Reg_Value_2_Buf(RegAddr, tmpData1);
 	if((Len == 0) || (Len > 4))
 	{
 		return Status_Error;
 	}
-
-	//大小端格式转换，先发送高字节
-	RN8209_Swap_Data(Data, Len, tmpData1);
 
 	tmpData2[0] = RegAddr | 0x80;
 
@@ -85,7 +74,7 @@ static EN_Global_Status RN8209_Check_Reg_Pack(EN_RN8209_REG_ADDR RegAddr, u8 Dat
 {
 	EN_Global_Status Status = Status_Error;
 	u8 tmpData[RN8209_BUF_SIZE];
-	u8 i = 0 ;
+	u8 i = 0;
 	u8 TempCSM = 0;
 
 	tmpData[0] = RegAddr;

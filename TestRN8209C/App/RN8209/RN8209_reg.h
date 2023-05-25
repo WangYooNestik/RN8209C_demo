@@ -88,6 +88,7 @@ extern ST_RN8209_REG RN8209_Reg;
 
 
 bool If_Found_RN8209_Reg(EN_RN8209_REG_ADDR RegAddr);
+u8 RN8209_Reg_Value_2_Buf(EN_RN8209_REG_ADDR RegAddr, u8 Data[]);
 EN_Global_Status RN8209_Parse_Cmd(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len);
 
 
