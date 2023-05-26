@@ -17,8 +17,6 @@ static u16 RN8209_Calibrate_Zero_Init(void)
 {
 	u16 CheckSum = 0;
 
-	RN8209_Init_Variables();
-
 	CheckSum += RN8209_Init_Func(RN8209_RESET);
 	CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
 	CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
@@ -30,8 +28,6 @@ static u16 RN8209_Calibrate_Zero_Init(void)
 static u16 RN8209_Calibrate_Zero_Init_1(void)
 {
 	u16 CheckSum = 0;
-
-	RN8209_Init_Variables();
 
 	CheckSum += RN8209_Init_Func(RN8209_RESET);
 	CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);

@@ -9,54 +9,6 @@
 
 #define ENABLE_IB_GAIN_REG 0
 
-static void RN8209_Init_Ctl_Reg_Variables(void)
-{
-	memset(&RN8209_Reg.Ctl, 0, sizeof(RN8209_Reg.Ctl));
-
-	RN8209_Reg.Ctl = Storage_RN8209.CtlReg;
-
-	if(CH_I_GAIN == CH_I_GAIN_1)
-	{
-		RN8209_Reg.Ctl.SYSCON = 0x1640;				//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益1，电流B增益1
-	}
-	else if(CH_I_GAIN == CH_I_GAIN_2)
-	{
-		RN8209_Reg.Ctl.SYSCON = 0x1651;				//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益2，电流B增益2
-	}else{
-		RN8209_Reg.Ctl.SYSCON = 0x1662;				//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益8，电流B增益4
-
-#if ENABLE_IB_GAIN_REG
-		RN8209_Reg.Ctl.IBGain = 0x8000 - 1;			//B通道增益翻倍
-#endif
-	}
-
-	RN8209_Reg.Ctl.EMUCON = 0xd463;					//电量读后清零，直流，关闭高通滤波，使能QF,PF脉冲输出//0x5463; 				//直流，关闭高通滤波，使能QF,PF脉冲输出
-
-	RN8209_Reg.Ctl.HFConst = ((0x017c * CH_I_GAIN) * (I_S_Gain_1 / I_S_Gain)); //48V 50A EC=3200 通道增益CH_I_GAIN
-
-	RN8209_Reg.Ctl.EMUCON2 = 0x00b0; 				//更新速度加快，自定义电量为通道B电量，//0x0040;		//自定义电量为通道B电量
-
-#if 1	//重设启动功率
-	RN8209_Reg.Ctl.PStart = 0x60;
-	RN8209_Reg.Ctl.DStart = 0x60;//0x120;
-#endif
-}
-
-static void RN8209_Init_Data_Reg_Variables(void)
-{
-	memset(&RN8209_Reg.Data, 0, sizeof(RN8209_Reg.Data));
-
-	RN8209_Reg.Data = Storage_RN8209.DataReg;
-}
-
-void RN8209_Init_Variables(void)
-{
-	RN8209_CheckSum = 0;
-
-	RN8209_Init_Ctl_Reg_Variables();
-
-	RN8209_Init_Data_Reg_Variables();
-}
 
 static void RN8209_Set_SysCtl(EN_RN8209_SC SysCtl)
 {
@@ -71,6 +23,8 @@ static u16 RN8209_Set_IB_Gain(void)
 {
 	u16 CheckSum = 0;
 
+	RN8209_Reg.Ctl.IBGain = 0x8000 - 1; 		//B通道增益翻倍
+
 	RN8209_Write_Reg(ADDR_IBGain);
 
 	//计算校验
@@ -82,6 +36,23 @@ static u16 RN8209_Set_IB_Gain(void)
 static u16 RN8209_Set_Ctl_Regs(void)
 {
 	u16 CheckSum = 0;
+
+	if(CH_I_GAIN == CH_I_GAIN_1)
+	{
+		RN8209_Reg.Ctl.SYSCON = 0x1640; 			//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益1，电流B增益1
+	}
+	else if(CH_I_GAIN == CH_I_GAIN_2)
+	{
+		RN8209_Reg.Ctl.SYSCON = 0x1651; 			//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益2，电流B增益2
+	}else{
+		RN8209_Reg.Ctl.SYSCON = 0x1662; 			//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益8，电流B增益4
+	}
+
+	RN8209_Reg.Ctl.EMUCON = 0xd463; 				//电量读后清零，直流，关闭高通滤波，使能QF,PF脉冲输出//0x5463;				//直流，关闭高通滤波，使能QF,PF脉冲输出
+
+	RN8209_Reg.Ctl.HFConst = ((0x017c * CH_I_GAIN) * (I_S_Gain_1 / I_S_Gain)); //48V 50A EC=3200 通道增益CH_I_GAIN
+
+	RN8209_Reg.Ctl.EMUCON2 = 0x00b0;				//更新速度加快，自定义电量为通道B电量，//0x0040;		//自定义电量为通道B电量
 
 	RN8209_Write_Reg(ADDR_SYSCON);
 	RN8209_Write_Reg(ADDR_EMUCON);
@@ -105,6 +76,9 @@ static u16 RN8209_Set_Power_Start(void)
 {
 	u16 CheckSum = 0;
 
+	RN8209_Reg.Ctl.PStart = 0x60;
+	RN8209_Reg.Ctl.DStart = 0x60;//0x120;
+
 	RN8209_Write_Reg(ADDR_PStart);
 	RN8209_Write_Reg(ADDR_DStart);
 
@@ -118,6 +92,11 @@ static u16 RN8209_Set_Power_Start(void)
 static u16 RN8209_Set_DC_Offset(void)
 {
 	u16 CheckSum = 0;
+
+	RN8209_Reg.Ctl.DCIAH = Storage_RN8209.CtlReg.DCIAH;
+	RN8209_Reg.Ctl.DCIBH = Storage_RN8209.CtlReg.DCIBH;
+	RN8209_Reg.Ctl.DCUH = Storage_RN8209.CtlReg.DCUH;
+	RN8209_Reg.Ctl.DCL = Storage_RN8209.CtlReg.DCL;
 
 	RN8209_Write_Reg(ADDR_DCIAH);		//电流a直流偏差
 	RN8209_Write_Reg(ADDR_DCIBH);		//电流b直流偏差
@@ -137,8 +116,11 @@ static u16 RN8209_Set_EVD(void)
 {
 	u16 CheckSum = 0;
 
-	RN8209_Write_Reg(ADDR_IARMSOS); 	//电流a有效值偏差
-	RN8209_Write_Reg(ADDR_IBRMSOS); 	//电流b有效值偏差
+	RN8209_Reg.Ctl.IARMSOS = Storage_RN8209.CtlReg.IARMSOS;
+	RN8209_Reg.Ctl.IBRMSOS = Storage_RN8209.CtlReg.IBRMSOS;
+
+	RN8209_Write_Reg(ADDR_IARMSOS);		//电流a有效值偏差
+	RN8209_Write_Reg(ADDR_IBRMSOS);		//电流b有效值偏差
 
 	//计算校验
 	CheckSum += RN8209_Reg.Ctl.IARMSOS;
@@ -150,6 +132,9 @@ static u16 RN8209_Set_EVD(void)
 static u16 RN8209_Set_Gain(void)
 {
 	u16 CheckSum = 0;
+
+	RN8209_Reg.Ctl.GPQA = Storage_RN8209.CtlReg.GPQA;
+	RN8209_Reg.Ctl.GPQB = Storage_RN8209.CtlReg.GPQB;
 
 	RN8209_Write_Reg(ADDR_GPQA);
 	RN8209_Write_Reg(ADDR_GPQB);
@@ -165,6 +150,9 @@ static u16 RN8209_Set_Power_Offset(void)
 {
 	u16 CheckSum = 0;
 
+	RN8209_Reg.Ctl.APOSA = Storage_RN8209.CtlReg.APOSA;
+	RN8209_Reg.Ctl.APOSB = Storage_RN8209.CtlReg.APOSB;
+
 	RN8209_Write_Reg(ADDR_APOSA);
 	RN8209_Write_Reg(ADDR_APOSB);
 
@@ -173,6 +161,15 @@ static u16 RN8209_Set_Power_Offset(void)
 	CheckSum += RN8209_Reg.Ctl.APOSB;
 
 	return CheckSum;
+}
+
+static void RN8209_Set_Energy(void)
+{
+	RN8209_Reg.Data.PFCnt = Storage_RN8209.DataReg.PFCnt;
+	RN8209_Reg.Data.DFcnt = Storage_RN8209.DataReg.DFcnt;
+
+	RN8209_Write_Reg(ADDR_PFCnt);
+	RN8209_Write_Reg(ADDR_DFcnt);
 }
 
 u16 RN8209_Init_Func(EN_RN8209_INIT_FUNC Func)
@@ -210,8 +207,7 @@ u16 RN8209_Init_Func(EN_RN8209_INIT_FUNC Func)
 			CheckSum = RN8209_Set_Power_Offset();
 			break;
 		case RN8209_SET_ENERGY:
-			RN8209_Write_Reg(ADDR_PFCnt);
-			RN8209_Write_Reg(ADDR_DFcnt);
+			RN8209_Set_Energy();
 			break;
 		default:
 			break;
@@ -225,8 +221,6 @@ u16 RN8209_Init_Func(EN_RN8209_INIT_FUNC Func)
 u16 RN8209_Init(void)
 {
 	u16 CheckSum = 0;
-
-	RN8209_Init_Variables();
 
 #if 1
 	CheckSum += RN8209_Init_Func(RN8209_RESET);

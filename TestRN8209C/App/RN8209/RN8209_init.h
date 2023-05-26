@@ -53,7 +53,6 @@ typedef enum{
 #define IF_RN8209_INIT_FUNC_OK(Func) if(Func >= RN8209_INIT_FUNC_MAX) return
 
 
-void RN8209_Init_Variables(void);
 u16 RN8209_Init_Func(EN_RN8209_INIT_FUNC Func);
 u16 RN8209_Init(void);
 
