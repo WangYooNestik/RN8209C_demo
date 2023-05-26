@@ -24,10 +24,7 @@ EN_RN8209_STATE Get_RN8209_Main_State(void)
 
 void Set_RN8209_Main_State(EN_RN8209_STATE State)
 {
-	if(State > RN8209_RUN)
-	{
-		return;
-	}
+	IF_RN8209_STATE_OK(State);
 
 	RN8209.State = State;
 }

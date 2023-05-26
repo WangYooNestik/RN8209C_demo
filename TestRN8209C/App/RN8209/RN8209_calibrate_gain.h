@@ -14,8 +14,10 @@ typedef enum{
 	RN8209_CLB_GAIN_MAX
 }EN_RN8209_CLB_GAIN_TYPE;
 
+#define IF_RN8209_CLB_GAIN_TYPE_OK(Type) if(Type >= RN8209_CLB_GAIN_MAX) return
 
-void RN8209_Calibrate_Gain_Set_Type(EN_RN8209_CLB_GAIN_TYPE Ch);
+
+void RN8209_Calibrate_Gain_Set_Type(EN_RN8209_CLB_GAIN_TYPE Type);
 bool RN8209_Calibrate_Gain_Handler(void);
 
 #endif

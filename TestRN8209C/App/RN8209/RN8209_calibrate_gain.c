@@ -119,10 +119,7 @@ static void RN8209_Init_Calibrate_Gain_State(void)
 
 void RN8209_Calibrate_Gain_Set_Type(EN_RN8209_CLB_GAIN_TYPE Type)
 {
-	if(Type >= RN8209_CLB_GAIN_MAX)
-	{
-		return;
-	}
+	IF_RN8209_CLB_GAIN_TYPE_OK(Type);
 
 	Set_RN8209_Main_State(RN8209_CLB_GAIN);
 	RN8209_Init_Calibrate_Gain_State();

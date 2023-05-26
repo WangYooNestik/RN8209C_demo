@@ -13,6 +13,12 @@ typedef enum{
 	SC_RESET = 0xfa,
 }EN_RN8209_SC;//System Control
 
+#define IF_RN8209_SC_OK(SysCtl) if(!(SysCtl == SC_UNLOCK \
+									|| SysCtl == SC_LOCK \
+									|| SysCtl == SC_SLC_CH_A \
+									|| SysCtl == SC_SLC_CH_B \
+									|| SysCtl == SC_RESET)) return
+
 
 #endif
 

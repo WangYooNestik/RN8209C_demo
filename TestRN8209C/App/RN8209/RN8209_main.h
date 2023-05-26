@@ -13,6 +13,8 @@ typedef enum{
 	RN8209_RUN,
 }EN_RN8209_STATE;
 
+#define IF_RN8209_STATE_OK(State) if(State > RN8209_RUN) return
+
 
 EN_RN8209_STATE Get_RN8209_Main_State(void);
 void Set_RN8209_Main_State(EN_RN8209_STATE State);

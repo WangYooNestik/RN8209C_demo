@@ -109,10 +109,7 @@ static void RN8209_Init_Calibrate_Offset_State(void)
 
 void RN8209_Calibrate_Offset_Set_Type(EN_RN8209_CLB_OFFSET_TYPE Type)
 {
-	if(Type >= RN8209_CLB_OFFSET_MAX)
-	{
-		return;
-	}
+	IF_RN8209_CLB_OFFSET_TYPE_OK(Type);
 
 	Set_RN8209_Main_State(RN8209_CLB_OFFSET);
 	RN8209_Init_Calibrate_Offset_State();

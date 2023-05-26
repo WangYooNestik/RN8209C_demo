@@ -13,8 +13,10 @@ typedef enum{
 	RN8209_CLB_OFFSET_MAX
 }EN_RN8209_CLB_OFFSET_TYPE;
 
+#define IF_RN8209_CLB_OFFSET_TYPE_OK(Type) if(Type >= RN8209_CLB_OFFSET_MAX) return
 
-void RN8209_Calibrate_Offset_Set_Type(EN_RN8209_CLB_OFFSET_TYPE Ch);
+
+void RN8209_Calibrate_Offset_Set_Type(EN_RN8209_CLB_OFFSET_TYPE Type);
 bool RN8209_Calibrate_Offset_Handler(void);
 
 #endif
