@@ -12,7 +12,7 @@
 
 ST_RN8209_DATA_REG RN8209_AverageData;
 
-ST_SYSTEM System;
+ST_RN8209_ANALOG RN8209_Analog;
 
 #define RN8209_EC 3200		//电表常数
 
@@ -49,7 +49,7 @@ void RN8209_Read(void)
 		{
 			if(Status[i] == Status_Error)
 			{
-				Set_RN8209_Main_State(RN8209_INIT);
+				Set_RN8209_Main_State(RN8209_MAIN_INIT);
 				return;
 			}
 		}
@@ -108,15 +108,15 @@ void RN8209_Read(void)
 		RN8209_AverageData.PowerPA = TempSum2[0] / SAMP_TIMES;
 		RN8209_AverageData.PowerPB = TempSum2[1] / SAMP_TIMES;
 
-		System.Voltage   = RN8209_AverageData.URMS * Storage_RN8209.U_Gain;
-		System.Current_A = RN8209_AverageData.IARMS * Storage_RN8209.IA_Gain;
-		System.Power_A   = RN8209_AverageData.PowerPA * KP_VALUE;
-		System.Power_A_1 = System.Voltage * System.Current_A;
-		System.Energy_A  = (double)Storage_RN8209.EA_Count / RN8209_EC;
-		System.Current_B = RN8209_AverageData.IBRMS * Storage_RN8209.IB_Gain;
-		System.Power_B   = RN8209_AverageData.PowerPB * KP_VALUE;
-		System.Power_B_1 = System.Voltage * System.Current_B;
-		System.Energy_B  = (double)Storage_RN8209.EB_Count / RN8209_EC;
+		RN8209_Analog.Voltage   = RN8209_AverageData.URMS * Storage_RN8209.U_Gain;
+		RN8209_Analog.Current_A = RN8209_AverageData.IARMS * Storage_RN8209.IA_Gain;
+		RN8209_Analog.Power_A   = RN8209_AverageData.PowerPA * KP_VALUE;
+		RN8209_Analog.Power_A_1 = RN8209_Analog.Voltage * RN8209_Analog.Current_A;
+		RN8209_Analog.Energy_A  = (double)Storage_RN8209.EA_Count / RN8209_EC;
+		RN8209_Analog.Current_B = RN8209_AverageData.IBRMS * Storage_RN8209.IB_Gain;
+		RN8209_Analog.Power_B   = RN8209_AverageData.PowerPB * KP_VALUE;
+		RN8209_Analog.Power_B_1 = RN8209_Analog.Voltage * RN8209_Analog.Current_B;
+		RN8209_Analog.Energy_B  = (double)Storage_RN8209.EB_Count / RN8209_EC;
 	}
 }
 

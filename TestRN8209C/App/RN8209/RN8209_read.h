@@ -21,9 +21,9 @@ typedef struct{
 	float Power_B;
 	float Power_B_1;
 	double Energy_B;
-}ST_SYSTEM;
+}ST_RN8209_ANALOG;
 
-extern ST_SYSTEM System;
+extern ST_RN8209_ANALOG RN8209_Analog;
 
 
 void RN8209_Read(void);

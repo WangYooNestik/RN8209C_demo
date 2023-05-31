@@ -641,21 +641,6 @@
               <FilePath>..\App\RN8209\RN8209_main.c</FilePath>
             </File>
             <File>
-              <FileName>RN8209_calibrate_zero.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\App\RN8209\RN8209_calibrate_zero.c</FilePath>
-            </File>
-            <File>
-              <FileName>RN8209_calibrate_gain.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\App\RN8209\RN8209_calibrate_gain.c</FilePath>
-            </File>
-            <File>
-              <FileName>RN8209_calibrate_offset.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\App\RN8209\RN8209_calibrate_offset.c</FilePath>
-            </File>
-            <File>
               <FileName>RN8209_init.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\App\RN8209\RN8209_init.c</FilePath>
@@ -664,6 +649,11 @@
               <FileName>RN8209_reg.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\App\RN8209\RN8209_reg.c</FilePath>
+            </File>
+            <File>
+              <FileName>RN8209_calibrate.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\App\RN8209\RN8209_calibrate.c</FilePath>
             </File>
           </Files>
         </Group>
