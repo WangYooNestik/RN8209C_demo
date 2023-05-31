@@ -63,7 +63,7 @@ typedef enum{
 	ADDR_WData = 0x45,
 	ADDR_DeviceID = 0x7f,
 
-	ADDR_SysCtl = 0xea,		//特殊命令（抽象为一个寄存器）
+	ADDR_SpecialFunc = 0xea,		//特殊命令（抽象为一个寄存器）
 }EN_RN8209_REG_ADDR;
 
 

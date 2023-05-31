@@ -69,7 +69,7 @@ bool If_Found_RN8209_Reg(EN_RN8209_REG_ADDR RegAddr)
 		case ADDR_RData:
 		case ADDR_WData:
 		case ADDR_DeviceID:
-		case ADDR_SysCtl:
+		case ADDR_SpecialFunc:
 			FoundReg =  true;
 			break;
 		default:
@@ -102,11 +102,11 @@ u8 RN8209_Reg_Value_2_Buf(EN_RN8209_REG_ADDR RegAddr, u8 Data[])
 	{
 		case ADDR_SYSCON:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.SYSCON, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.SYSCON.Value, Len, Data);
 			break;
 		case ADDR_EMUCON:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.EMUCON, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.EMUCON.Value, Len, Data);
 			break;
 		case ADDR_HFConst:
 			Len = 2;
@@ -194,7 +194,7 @@ u8 RN8209_Reg_Value_2_Buf(EN_RN8209_REG_ADDR RegAddr, u8 Data[])
 			break;
 		case ADDR_EMUCON2:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.EMUCON2, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.EMUCON2.Value, Len, Data);
 			break;
 		case ADDR_PFCnt:
 			Len = 2;
@@ -204,9 +204,9 @@ u8 RN8209_Reg_Value_2_Buf(EN_RN8209_REG_ADDR RegAddr, u8 Data[])
 			Len = 2;
 			RN8209_Swap_Data((u8*)&RN8209_Reg.Data.DFcnt, Len, Data);
 			break;
-		case ADDR_SysCtl:
+		case ADDR_SpecialFunc:
 			Len = 1;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.SSC.SysCtl, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.SSC.SpecialFunc, Len, Data);
 			break;
 		default:
 			break;

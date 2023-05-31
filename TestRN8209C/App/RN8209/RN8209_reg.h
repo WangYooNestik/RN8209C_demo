@@ -16,8 +16,8 @@ extern u16 RN8209_CheckSum;
 #define s24 s32
 
 typedef struct{
-	u16 SYSCON;
-	u16 EMUCON;
+	UN_RN8209_SC SYSCON;
+	UN_RN8209_EMC EMUCON;
 	u16 HFConst;
 	u16 PStart;
 	u16 DStart;
@@ -39,7 +39,7 @@ typedef struct{
 	u16 DCIBH;
 	u16 DCUH;
 	u16 DCL;
-	u16 EMUCON2;
+	UN_RN8209_EMC2 EMUCON2;
 }ST_RN8209_CTL_REG;
 
 typedef struct{
@@ -74,7 +74,7 @@ typedef struct{
 	u32 RData;
 	u16 WData;
 	u24 DeviceID;
-	EN_RN8209_SC SysCtl;
+	EN_RN8209_SF SpecialFunc;
 }ST_RN8209_SSC_REG;//System Status and Control
 
 typedef struct{

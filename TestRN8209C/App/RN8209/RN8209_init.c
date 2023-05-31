@@ -10,13 +10,13 @@
 #define ENABLE_IB_GAIN_REG 0
 
 
-static void RN8209_Set_SysCtl(EN_RN8209_SC SysCtl)
+static void RN8209_Set_SysCtl(EN_RN8209_SF SpecialFunc)
 {
-	IF_RN8209_SC_OK(SysCtl);
+	IF_RN8209_SF_OK(SpecialFunc);
 
-	RN8209_Reg.SSC.SysCtl = SysCtl;
+	RN8209_Reg.SSC.SpecialFunc = SpecialFunc;
 
-	RN8209_Write_Reg(ADDR_SysCtl);
+	RN8209_Write_Reg(ADDR_SpecialFunc);
 }
 
 static u16 RN8209_Set_IB_Gain(void)
@@ -37,33 +37,58 @@ static u16 RN8209_Set_Ctl_Regs(void)
 {
 	u16 CheckSum = 0;
 
+#if 1
+	RN8209_Reg.Ctl.SYSCON.Value = 0;
+	RN8209_Reg.Ctl.SYSCON.Value_B.UartBr = BAUDRATE_4800;	//这个是只读，这里只是用来校验。调整这个参数并不影响真正的baudrate，要切换baudrate只能配置管脚
+	RN8209_Reg.Ctl.SYSCON.Value_B.ADC2ON = ADC_ACTIVE;		//开启电流通道B
+	RN8209_Reg.Ctl.SYSCON.Value_B.PGAIB = IB_GAIN_4;		//电流B增益4
+	RN8209_Reg.Ctl.SYSCON.Value_B.PGAU = U_GAIN_4;			//电压增益4
+	RN8209_Reg.Ctl.SYSCON.Value_B.PGAIA = IA_GAIN_16;		//电流A增益16
+
+	RN8209_Reg.Ctl.EMUCON.Value = 0;
+	RN8209_Reg.Ctl.EMUCON.Value_B.EnergyCLR = Clearing_After_Reading;	//电量读后清零
+	RN8209_Reg.Ctl.EMUCON.Value_B.HPFIBOFF = Disactive_DHPF;			//关闭高通滤波
+	RN8209_Reg.Ctl.EMUCON.Value_B.QMOD = MOD_2;							//只累加正向功率
+	RN8209_Reg.Ctl.EMUCON.Value_B.PMOD = MOD_2;							//只累加正向功率
+	RN8209_Reg.Ctl.EMUCON.Value_B.HPFIAOFF = Disactive_DHPF;			//关闭高通滤波
+	RN8209_Reg.Ctl.EMUCON.Value_B.HPFUOFF = Disactive_DHPF;				//关闭高通滤波
+	RN8209_Reg.Ctl.EMUCON.Value_B.DRUN = Active_RUN;					//使能 QF 脉冲输出和自定义电能寄存器累加
+	RN8209_Reg.Ctl.EMUCON.Value_B.PRUN = Active_RUN;					//使能 PF 脉冲输出和自定义电能寄存器累加
+
+	RN8209_Reg.Ctl.EMUCON2.Value = 0;
+	RN8209_Reg.Ctl.EMUCON2.Value_B.UPMODE = UPMODE_13_982Hz;
+	RN8209_Reg.Ctl.EMUCON2.Value_B.D2FM = D2FM_4;				//自定义电量为通道B电量
+
+	RN8209_Reg.Ctl.HFConst = ((0x017c * CH_I_GAIN) * (I_S_Gain_1 / I_S_Gain)); //48V 50A EC=3200 通道增益CH_I_GAIN
+#else
 	if(CH_I_GAIN == CH_I_GAIN_1)
 	{
-		RN8209_Reg.Ctl.SYSCON = 0x1640; 			//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益1，电流B增益1
+		RN8209_Reg.Ctl.SYSCON.Value = 0x1640;			//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益1，电流B增益1
 	}
 	else if(CH_I_GAIN == CH_I_GAIN_2)
 	{
-		RN8209_Reg.Ctl.SYSCON = 0x1651; 			//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益2，电流B增益2
+		RN8209_Reg.Ctl.SYSCON.Value = 0x1651;			//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益2，电流B增益2
 	}else{
-		RN8209_Reg.Ctl.SYSCON = 0x1662; 			//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益8，电流B增益4
+		RN8209_Reg.Ctl.SYSCON.Value = 0x1662;			//0x1波特率 4800，开启电流通道B，电压增益1，电流A增益8，电流B增益4
 	}
 
-	RN8209_Reg.Ctl.EMUCON = 0xd463; 				//电量读后清零，直流，关闭高通滤波，使能QF,PF脉冲输出//0x5463;				//直流，关闭高通滤波，使能QF,PF脉冲输出
+	RN8209_Reg.Ctl.EMUCON.Value = 0xd463;				//电量读后清零，直流，关闭高通滤波，使能QF,PF脉冲输出//0x5463;				//直流，关闭高通滤波，使能QF,PF脉冲输出
 
 	RN8209_Reg.Ctl.HFConst = ((0x017c * CH_I_GAIN) * (I_S_Gain_1 / I_S_Gain)); //48V 50A EC=3200 通道增益CH_I_GAIN
 
-	RN8209_Reg.Ctl.EMUCON2 = 0x00b0;				//更新速度加快，自定义电量为通道B电量，//0x0040;		//自定义电量为通道B电量
+	RN8209_Reg.Ctl.EMUCON2.Value = 0x00b0;				//更新速度加快，自定义电量为通道B电量，//0x0040;		//自定义电量为通道B电量
+#endif
 
 	RN8209_Write_Reg(ADDR_SYSCON);
 	RN8209_Write_Reg(ADDR_EMUCON);
-	RN8209_Write_Reg(ADDR_HFConst);
 	RN8209_Write_Reg(ADDR_EMUCON2);
+	RN8209_Write_Reg(ADDR_HFConst);
 
 	//计算校验
-	CheckSum += RN8209_Reg.Ctl.SYSCON;
-	CheckSum += RN8209_Reg.Ctl.EMUCON;
+	CheckSum += RN8209_Reg.Ctl.SYSCON.Value;
+	CheckSum += RN8209_Reg.Ctl.EMUCON.Value;
+	CheckSum += RN8209_Reg.Ctl.EMUCON2.Value;
 	CheckSum += RN8209_Reg.Ctl.HFConst;
-	CheckSum += RN8209_Reg.Ctl.EMUCON2;
 
 #if ENABLE_IB_GAIN_REG
 	CheckSum += RN8209_Set_IB_Gain();
@@ -194,12 +219,12 @@ static u16 RN8209_Init_Func(EN_RN8209_INIT_FUNC Func)
 
 	IF_RN8209_INIT_FUNC_OK(Func) CheckSum;
 
-	RN8209_Set_SysCtl(SC_UNLOCK);
+	RN8209_Set_SysCtl(SF_UNLOCK);
 
 	switch(Func)
 	{
 		case RN8209_RESET:
-			RN8209_Set_SysCtl(SC_RESET);
+			RN8209_Set_SysCtl(SF_RESET);
 			break;
 		case RN8209_SET_CTL_REG:
 			CheckSum = RN8209_Set_Ctl_Regs();
@@ -229,7 +254,7 @@ static u16 RN8209_Init_Func(EN_RN8209_INIT_FUNC Func)
 			break;
 	}
 
-	RN8209_Set_SysCtl(SC_LOCK);
+	RN8209_Set_SysCtl(SF_LOCK);
 
 	return CheckSum;
 }
