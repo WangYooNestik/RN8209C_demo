@@ -9,21 +9,6 @@
 
 
 
-static u16 RN8209_Calibrate_Offset_Init(void)
-{
-	u16 CheckSum = 0;
-
-	CheckSum += RN8209_Init_Func(RN8209_RESET);
-	CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
-	CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
-	CheckSum += RN8209_Init_Func(RN8209_SET_DC_OFFSET);
-	CheckSum += RN8209_Init_Func(RN8209_SET_EVD);
-	CheckSum += RN8209_Init_Func(RN8209_SET_GAIN);
-	CheckSum = ~CheckSum;
-
-	return CheckSum;
-}
-
 static void RN8209_Calibrate_Ch_A_Power_Offset(void)
 {
 	u32 TempPowerA = 0;
@@ -122,7 +107,7 @@ bool RN8209_Calibrate_Offset_Handler(void)
 	switch(RN8209_CalibrateOffset.State)
 	{
 		case RN8209_CLB_OFFSET_INIT:
-			RN8209_CheckSum = RN8209_Calibrate_Offset_Init();
+			RN8209_Init(RN8209_INIT_CALIBRATE_P_GAIN_OFFSET);
 			Reset_Tick(&WaitTick);
 			RN8209_CalibrateOffset.State = RN8209_CLB_OFFSET_WAIT_1;
 			break;

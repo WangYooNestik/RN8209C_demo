@@ -9,19 +9,8 @@
 
 
 
-static u16 RN8209_Calibrate_Gain_Init(void)
-{
-	u16 CheckSum = 0;
-
-	CheckSum += RN8209_Init_Func(RN8209_RESET);
-	CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
-	CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
-	CheckSum += RN8209_Init_Func(RN8209_SET_DC_OFFSET);
-	CheckSum += RN8209_Init_Func(RN8209_SET_EVD);
-	CheckSum = ~CheckSum;
-
-	return CheckSum;
-}
+#define RN8209_Un 48.0f		//额定电压
+#define RN8209_Ib 50.0f		//额定电流
 
 static void RN8209_Calibrate_Voltage_Gain(void)
 {
@@ -132,7 +121,7 @@ bool RN8209_Calibrate_Gain_Handler(void)
 	switch(RN8209_CalibrateGain.State)
 	{
 		case RN8209_CLB_GAIN_INIT:
-			RN8209_CheckSum = RN8209_Calibrate_Gain_Init();
+			RN8209_Init(RN8209_INIT_CALIBRATE_U_I_P_GAIN);
 			Reset_Tick(&WaitTick);
 			RN8209_CalibrateGain.State = RN8209_CLB_GAIN_WAIT_1;
 			break;

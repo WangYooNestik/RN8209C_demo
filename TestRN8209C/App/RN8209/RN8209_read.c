@@ -14,6 +14,8 @@ ST_RN8209_DATA_REG RN8209_AverageData;
 
 ST_SYSTEM System;
 
+#define RN8209_EC 3200		//电表常数
+
 #define READ_REG_NUM 10
 
 #define SAMP_TIMES 25
@@ -24,10 +26,10 @@ void RN8209_Read(void)
 	static u32 WaitTick1 = 0;
 	static ST_RN8209_DATA_REG TempDataBuf[SAMP_TIMES];
 	static u8 Idx = 0;
+	EN_Global_Status Status[READ_REG_NUM] = {Status_Success};
 	u8 i = 0;
 	u64 TempSum1[3] = {0};
 	s64 TempSum2[2] = {0};
-	EN_Global_Status Status[READ_REG_NUM] = {Status_Success};
 
 	if(Tick_Timeout(&WaitTick, TIME_100MS))
 	{

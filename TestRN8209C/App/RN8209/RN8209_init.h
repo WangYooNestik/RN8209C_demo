@@ -19,10 +19,6 @@ typedef enum{
 
 
 
-#define RN8209_Un 48.0f		//额定电压
-#define RN8209_Ib 50.0f		//额定电流
-#define RN8209_EC 3200		//电表常数
-
 #define U_S_Gain 331		//电压采样电阻比例
 #define I_S_Gain_1 4000		//电流采样电阻比例，采样电阻250μΩ，（I_S_Gain_1 = 1 / 250μΩ）
 #define I_S_Gain_2 2000		//电流采样电阻比例，采样电阻500μΩ，（I_S_Gain_2 = 1 / 500μΩ）
@@ -38,23 +34,18 @@ typedef enum{
 
 
 typedef enum{
-	RN8209_RESET = 0,
-	RN8209_SET_CTL_REG,
-	RN8209_SET_POWER_START,		//启动功率
-	RN8209_SET_IB_GAIN,			//电流通道B，增益
-	RN8209_SET_DC_OFFSET,		//直流偏置
-	RN8209_SET_EVD,				//有效值偏差
-	RN8209_SET_GAIN,			//增益校准
-	RN8209_SET_POWER_OFFSET,	//有功功率偏差
-	RN8209_SET_ENERGY,			//写入快速脉冲
-	RN8209_INIT_FUNC_MAX
-}EN_RN8209_INIT_FUNC;
+	RN8209_INIT_CALIBRATE_DC_OFFSET = 0,		//校准dc偏置
+	RN8209_INIT_CALIBRATE_EFFECTIVE_OFFSET,		//校准有效值偏置
+	RN8209_INIT_CALIBRATE_U_I_P_GAIN,			//校准放大系数
+	RN8209_INIT_CALIBRATE_P_GAIN_OFFSET,		//校准功率偏置
+	RN8209_INIT_ALL,
+	RN8209_INIT_TYPE_MAX,
+}EN_RN8209_INIT_TYPE;
 
-#define IF_RN8209_INIT_FUNC_OK(Func) if(Func >= RN8209_INIT_FUNC_MAX) return
+#define IF_RN8209_INIT_TYPE_OK(Type) if(Type >= RN8209_INIT_TYPE_MAX) return
 
 
-u16 RN8209_Init_Func(EN_RN8209_INIT_FUNC Func);
-u16 RN8209_Init(void);
+void RN8209_Init(EN_RN8209_INIT_TYPE Type);
 
 #endif
 

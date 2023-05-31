@@ -13,31 +13,6 @@ static ST_RN8209_DATA_REG RN8209_CalibrateZeroData_1;
 static ST_RN8209_DATA_REG RN8209_CalibrateZeroData_2;
 
 
-static u16 RN8209_Calibrate_Zero_Init(void)
-{
-	u16 CheckSum = 0;
-
-	CheckSum += RN8209_Init_Func(RN8209_RESET);
-	CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
-	CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
-	CheckSum = ~CheckSum;
-
-	return CheckSum;
-}
-
-static u16 RN8209_Calibrate_Zero_Init_1(void)
-{
-	u16 CheckSum = 0;
-
-	CheckSum += RN8209_Init_Func(RN8209_RESET);
-	CheckSum += RN8209_Init_Func(RN8209_SET_CTL_REG);
-	CheckSum += RN8209_Init_Func(RN8209_SET_POWER_START);
-	CheckSum += RN8209_Init_Func(RN8209_SET_DC_OFFSET);
-	CheckSum = ~CheckSum;
-
-	return CheckSum;
-}
-
 static void RN8209_Calibrate_Zero_CALC_DC_Offset(void)
 {
 	RN8209_CalibrateZeroData_1 = RN8209_AverageData;
@@ -150,7 +125,7 @@ bool RN8209_Calibrate_Zero_Handler(void)
 	switch(RN8209_CalibrateZero.State)
 	{
 		case RN8209_CLB_ZERO_INIT:
-			RN8209_CheckSum = RN8209_Calibrate_Zero_Init();
+			RN8209_Init(RN8209_INIT_CALIBRATE_DC_OFFSET);
 			Reset_Tick(&WaitTick);
 			RN8209_CalibrateZero.State = RN8209_CLB_ZERO_WAIT_1;
 			break;
@@ -158,7 +133,7 @@ bool RN8209_Calibrate_Zero_Handler(void)
 			if(Tick_Timeout(&WaitTick, WAIT_DATA_REFRESH_TIME))
 			{
 				RN8209_Calibrate_Zero_CALC_DC_Offset();
-				RN8209_CheckSum = RN8209_Calibrate_Zero_Init_1();
+				RN8209_Init(RN8209_INIT_CALIBRATE_EFFECTIVE_OFFSET);
 				RN8209_CalibrateZero.State = RN8209_CLB_ZERO_WAIT_2;
 			}
 			break;
@@ -167,7 +142,7 @@ bool RN8209_Calibrate_Zero_Handler(void)
 			{
 				if(RN8209_Calibrate_Zero_Check_DC_Offset())
 				{
-					RN8209_CheckSum = RN8209_Calibrate_Zero_Init_1();
+					RN8209_Init(RN8209_INIT_CALIBRATE_EFFECTIVE_OFFSET);
 					RN8209_CalibrateZero.State = RN8209_CLB_ZERO_WAIT_3;
 				}else{
 					RN8209_CalibrateZero.State = RN8209_CLB_ZERO_SET_EFCT_REG;

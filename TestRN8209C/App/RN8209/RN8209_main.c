@@ -34,7 +34,7 @@ void RN8209_Handler(void)
 	switch(RN8209.State)
 	{
 		case RN8209_INIT:
-			RN8209_CheckSum = RN8209_Init();
+			RN8209_Init(RN8209_INIT_ALL);
 			RN8209.State = RN8209_RUN;
 			break;
 		case RN8209_CLB_ZERO:
