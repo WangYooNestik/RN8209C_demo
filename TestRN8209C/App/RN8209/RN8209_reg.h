@@ -12,9 +12,6 @@ extern u16 RN8209_CheckSum;
 
 //---- RN8209 寄存器缓存----//
 
-#define u24 u32
-#define s24 s32
-
 typedef struct{
 	UN_RN8209_SC SYSCON;
 	UN_RN8209_EMC EMUCON;
