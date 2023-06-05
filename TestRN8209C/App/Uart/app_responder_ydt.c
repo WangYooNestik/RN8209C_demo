@@ -23,7 +23,7 @@ static EN_CID2_RTN Parse_Responder_Cmd(void)
 
 	switch(UartRcv.Data.Temp1.pBuf[YDT_IDX_CID2])
 	{
-		case CID2_RCV_CALIBRATE_STATUS:
+		case CID2_RCV_CALIBRATE_GET_STATUS:
 			if(Get_RN8209_Main_State() == RN8209_MAIN_RUN)
 			{
 				UartRcv.Data.Temp2.pBuf[Idx2++] = 0;
