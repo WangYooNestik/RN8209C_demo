@@ -52,13 +52,13 @@ typedef enum{
 }EN_PGAIA;
 
 typedef struct{
-	u16 Reserve_Bit15:1;
-	EN_BAUDRATE UartBr:7;		//UART 波特率选择，只读，其值由硬件管脚 B1 和 B0 决定
-	u16 Reserve_Bit7:1;
-	EN_ADC_STA ADC2ON:1;		// =1：表示 ADC 电流通道 B 开启；=0：表示 ADC 电流通道 B 关闭，ADC 输出恒为 0
-	EN_PGAIB PGAIB:2;
-	EN_PGAU PGAU:2;
 	EN_PGAIA PGAIA:2;
+	EN_PGAU PGAU:2;
+	EN_PGAIB PGAIB:2;
+	EN_ADC_STA ADC2ON:1;		// =1：表示 ADC 电流通道 B 开启；=0：表示 ADC 电流通道 B 关闭，ADC 输出恒为 0
+	u16 Reserve_Bit7:1;
+	EN_BAUDRATE UartBr:7;		//UART 波特率选择，只读，其值由硬件管脚 B1 和 B0 决定
+	u16 Reserve_Bit15:1;
 }ST_RN8209_SC_B;//System Control
 
 typedef union{
@@ -92,19 +92,19 @@ typedef enum{
 }EN_RUN;
 
 typedef struct{
-	EN_EnergyCLR EnergyCLR:1;
-	EN_DHPF_STA HPFIBOFF:1;
-	EN_MOD QMOD:2;
-	EN_MOD PMOD:2;
-	u16 ZXD1:1;
-	u16 ZXD0:1;
-	u16 ZXCFG:1;
-	EN_DHPF_STA HPFIAOFF:1;
-	EN_DHPF_STA HPFUOFF:1;
-	u16 CFSUEN:1;
-	u16 CFSU:2;
-	EN_RUN DRUN:1;			// QF 脉冲
 	EN_RUN PRUN:1;			// PF 脉冲
+	EN_RUN DRUN:1;			// QF 脉冲
+	u16 CFSU:2;
+	u16 CFSUEN:1;
+	EN_DHPF_STA HPFUOFF:1;
+	EN_DHPF_STA HPFIAOFF:1;
+	u16 ZXCFG:1;
+	u16 ZXD0:1;
+	u16 ZXD1:1;
+	EN_MOD PMOD:2;
+	EN_MOD QMOD:2;
+	EN_DHPF_STA HPFIBOFF:1;
+	EN_EnergyCLR EnergyCLR:1;
 }ST_RN8209_EMC_B;//Energy Measure Control
 
 typedef union{
@@ -129,16 +129,16 @@ typedef enum{
 }EN_D2FM;
 
 typedef struct{
-	u16 Reserve_Bit15_14:2;
-	u16 FreqCnt:2;
-	u16 Reserve_Bit11_10:2;
-	u16 PhsB0:1;
-	u16 PhsA0:1;
-	EN_UPMODE UPMODE:1;
-	u16 ZXMODE:1;
-	EN_D2FM D2FM:2;
-	u16 Energy_fz:1;
 	u16 Reserve_Bit2_0:3;
+	u16 Energy_fz:1;
+	EN_D2FM D2FM:2;
+	u16 ZXMODE:1;
+	EN_UPMODE UPMODE:1;
+	u16 PhsA0:1;
+	u16 PhsB0:1;
+	u16 Reserve_Bit11_10:2;
+	u16 FreqCnt:2;
+	u16 Reserve_Bit15_14:2;
 }ST_RN8209_EMC2_B;//Energy Measure Control 2
 
 typedef union{
