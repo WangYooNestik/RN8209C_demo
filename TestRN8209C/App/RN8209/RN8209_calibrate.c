@@ -119,9 +119,15 @@ static EN_Global_Status RN8209_Calibrate_Check_DC_Offset(void)
 //校准有效值偏置
 static void RN8209_Calibrate_Effective_Offset(void)
 {
-	RN8209_Reg.Ctl.IARMSOS = (~((RN8209_AverageData.IARMS * RN8209_AverageData.IARMS) / 256));
+	s64 Temp = 0;
 
-	RN8209_Reg.Ctl.IBRMSOS = (~((RN8209_AverageData.IBRMS * RN8209_AverageData.IBRMS) / 256));
+	Temp = RN8209_AverageData.IARMS;
+	Temp *= RN8209_AverageData.IARMS;
+	RN8209_Reg.Ctl.IARMSOS = (~(Temp >> 8));
+
+	Temp = RN8209_AverageData.IBRMS;
+	Temp *= RN8209_AverageData.IBRMS;
+	RN8209_Reg.Ctl.IBRMSOS = (~(Temp >> 8));
 
 	Storage_RN8209.CtlReg.IARMSOS = RN8209_Reg.Ctl.IARMSOS;
 	Storage_RN8209.CtlReg.IBRMSOS = RN8209_Reg.Ctl.IBRMSOS;
