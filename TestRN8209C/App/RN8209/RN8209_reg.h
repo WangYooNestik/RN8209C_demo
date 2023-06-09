@@ -37,7 +37,7 @@ typedef struct{
 	u16 DCUH;
 	u16 DCL;
 	UN_RN8209_EMC2 EMUCON2;
-}ST_RN8209_CTL_REG;
+}ST_RN8209_CTRL_REG;
 
 typedef struct{
 	u16 PFCnt;
@@ -75,7 +75,7 @@ typedef struct{
 }ST_RN8209_SSC_REG;//System Status and Control
 
 typedef struct{
-	ST_RN8209_CTL_REG Ctl;		//控制寄存器
+	ST_RN8209_CTRL_REG Ctrl;	//控制寄存器
 	ST_RN8209_DATA_REG Data;	//数据和状态
 	ST_RN8209_INT_REG Int;		//中断
 	ST_RN8209_SSC_REG SSC;		//系统状态和控制

@@ -10,7 +10,7 @@
 
 typedef struct{
 	ST_STORAGE_CHECK StorageCheck;
-	ST_RN8209_CTL_REG CtlReg;
+	ST_RN8209_CTRL_REG CtrlReg;
 	ST_RN8209_DATA_REG DataReg;
 	float U_Gain;
 	float IA_Gain;

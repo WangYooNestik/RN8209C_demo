@@ -54,19 +54,19 @@ static void RN8209_Calibrate_DC_Offset(void)
 {
 	RN8209_Calibrate_DC_Offset_Prev = RN8209_AverageData;
 
-	RN8209_Reg.Ctl.DCUH = (RN8209_Calibrate_DC_Offset_Prev.URMS >> 8);
-	RN8209_Reg.Ctl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.URMS >> 4) & 0x0f) << 8);
+	RN8209_Reg.Ctrl.DCUH = (RN8209_Calibrate_DC_Offset_Prev.URMS >> 8);
+	RN8209_Reg.Ctrl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.URMS >> 4) & 0x0f) << 8);
 
-	RN8209_Reg.Ctl.DCIAH = (RN8209_Calibrate_DC_Offset_Prev.IARMS >> 8);
-	RN8209_Reg.Ctl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.IARMS >> 4) & 0x0f) << 0);
+	RN8209_Reg.Ctrl.DCIAH = (RN8209_Calibrate_DC_Offset_Prev.IARMS >> 8);
+	RN8209_Reg.Ctrl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.IARMS >> 4) & 0x0f) << 0);
 
-	RN8209_Reg.Ctl.DCIBH = (RN8209_Calibrate_DC_Offset_Prev.IBRMS >> 8);
-	RN8209_Reg.Ctl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.IBRMS >> 4) & 0x0f) << 4);
+	RN8209_Reg.Ctrl.DCIBH = (RN8209_Calibrate_DC_Offset_Prev.IBRMS >> 8);
+	RN8209_Reg.Ctrl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.IBRMS >> 4) & 0x0f) << 4);
 
-	Storage_RN8209.CtlReg.DCUH = RN8209_Reg.Ctl.DCUH;
-	Storage_RN8209.CtlReg.DCIAH = RN8209_Reg.Ctl.DCIAH;
-	Storage_RN8209.CtlReg.DCIBH = RN8209_Reg.Ctl.DCIBH;
-	Storage_RN8209.CtlReg.DCL = RN8209_Reg.Ctl.DCL;
+	Storage_RN8209.CtrlReg.DCUH = RN8209_Reg.Ctrl.DCUH;
+	Storage_RN8209.CtrlReg.DCIAH = RN8209_Reg.Ctrl.DCIAH;
+	Storage_RN8209.CtrlReg.DCIBH = RN8209_Reg.Ctrl.DCIBH;
+	Storage_RN8209.CtrlReg.DCL = RN8209_Reg.Ctrl.DCL;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }
@@ -80,8 +80,8 @@ static EN_Global_Status RN8209_Calibrate_Check_DC_Offset(void)
 	{
 		RN8209_Calibrate_DC_Offset_Prev.URMS = ~RN8209_Calibrate_DC_Offset_Prev.URMS;
 
-		RN8209_Reg.Ctl.DCUH = (RN8209_Calibrate_DC_Offset_Prev.URMS >> 8);
-		RN8209_Reg.Ctl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.URMS >> 4) & 0x0f) << 8);
+		RN8209_Reg.Ctrl.DCUH = (RN8209_Calibrate_DC_Offset_Prev.URMS >> 8);
+		RN8209_Reg.Ctrl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.URMS >> 4) & 0x0f) << 8);
 
 		Status = Status_Error;
 	}
@@ -90,8 +90,8 @@ static EN_Global_Status RN8209_Calibrate_Check_DC_Offset(void)
 	{
 		RN8209_Calibrate_DC_Offset_Prev.IARMS = ~RN8209_Calibrate_DC_Offset_Prev.IARMS;
 
-		RN8209_Reg.Ctl.DCIAH = (RN8209_Calibrate_DC_Offset_Prev.IARMS >> 8);
-		RN8209_Reg.Ctl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.IARMS >> 4) & 0x0f) << 0);
+		RN8209_Reg.Ctrl.DCIAH = (RN8209_Calibrate_DC_Offset_Prev.IARMS >> 8);
+		RN8209_Reg.Ctrl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.IARMS >> 4) & 0x0f) << 0);
 
 		Status = Status_Error;
 	}
@@ -100,16 +100,16 @@ static EN_Global_Status RN8209_Calibrate_Check_DC_Offset(void)
 	{
 		RN8209_Calibrate_DC_Offset_Prev.IBRMS = ~RN8209_Calibrate_DC_Offset_Prev.IBRMS;
 
-		RN8209_Reg.Ctl.DCIBH = (RN8209_Calibrate_DC_Offset_Prev.IBRMS >> 8);
-		RN8209_Reg.Ctl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.IBRMS >> 4) & 0x0f) << 4);
+		RN8209_Reg.Ctrl.DCIBH = (RN8209_Calibrate_DC_Offset_Prev.IBRMS >> 8);
+		RN8209_Reg.Ctrl.DCL |= (((RN8209_Calibrate_DC_Offset_Prev.IBRMS >> 4) & 0x0f) << 4);
 
 		Status = Status_Error;
 	}
 
-	Storage_RN8209.CtlReg.DCUH = RN8209_Reg.Ctl.DCUH;
-	Storage_RN8209.CtlReg.DCIAH = RN8209_Reg.Ctl.DCIAH;
-	Storage_RN8209.CtlReg.DCIBH = RN8209_Reg.Ctl.DCIBH;
-	Storage_RN8209.CtlReg.DCL = RN8209_Reg.Ctl.DCL;
+	Storage_RN8209.CtrlReg.DCUH = RN8209_Reg.Ctrl.DCUH;
+	Storage_RN8209.CtrlReg.DCIAH = RN8209_Reg.Ctrl.DCIAH;
+	Storage_RN8209.CtrlReg.DCIBH = RN8209_Reg.Ctrl.DCIBH;
+	Storage_RN8209.CtrlReg.DCL = RN8209_Reg.Ctrl.DCL;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 
@@ -123,14 +123,14 @@ static void RN8209_Calibrate_Effective_Offset(void)
 
 	Temp = RN8209_AverageData.IARMS;
 	Temp *= RN8209_AverageData.IARMS;
-	RN8209_Reg.Ctl.IARMSOS = (~(Temp >> 8));
+	RN8209_Reg.Ctrl.IARMSOS = (~(Temp >> 8));
 
 	Temp = RN8209_AverageData.IBRMS;
 	Temp *= RN8209_AverageData.IBRMS;
-	RN8209_Reg.Ctl.IBRMSOS = (~(Temp >> 8));
+	RN8209_Reg.Ctrl.IBRMSOS = (~(Temp >> 8));
 
-	Storage_RN8209.CtlReg.IARMSOS = RN8209_Reg.Ctl.IARMSOS;
-	Storage_RN8209.CtlReg.IBRMSOS = RN8209_Reg.Ctl.IBRMSOS;
+	Storage_RN8209.CtrlReg.IARMSOS = RN8209_Reg.Ctrl.IARMSOS;
+	Storage_RN8209.CtrlReg.IBRMSOS = RN8209_Reg.Ctrl.IBRMSOS;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }
@@ -169,12 +169,12 @@ static void RN8209_Calibrate_PA_Gain(void)
 	PA_Gain = 0 - PA_Gain;
 	if(PA_Gain > 0.0f)
 	{
-		RN8209_Reg.Ctl.GPQA = PA_Gain * 0x8000;
+		RN8209_Reg.Ctrl.GPQA = PA_Gain * 0x8000;
 	}else{
-		RN8209_Reg.Ctl.GPQA = PA_Gain * 0x8000 + 0x10000;
+		RN8209_Reg.Ctrl.GPQA = PA_Gain * 0x8000 + 0x10000;
 	}
 
-	Storage_RN8209.CtlReg.GPQA = RN8209_Reg.Ctl.GPQA;
+	Storage_RN8209.CtrlReg.GPQA = RN8209_Reg.Ctrl.GPQA;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }
@@ -202,12 +202,12 @@ static void RN8209_Calibrate_PB_Gain(void)
 	PB_Gain = 0 - PB_Gain;
 	if(PB_Gain > 0.0f)
 	{
-		RN8209_Reg.Ctl.GPQB = PB_Gain * 0x8000;
+		RN8209_Reg.Ctrl.GPQB = PB_Gain * 0x8000;
 	}else{
-		RN8209_Reg.Ctl.GPQB = PB_Gain * 0x8000 + 0x10000;
+		RN8209_Reg.Ctrl.GPQB = PB_Gain * 0x8000 + 0x10000;
 	}
 
-	Storage_RN8209.CtlReg.GPQB = RN8209_Reg.Ctl.GPQB;
+	Storage_RN8209.CtrlReg.GPQB = RN8209_Reg.Ctrl.GPQB;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }
@@ -219,11 +219,11 @@ static void RN8209_Calibrate_PA_Gain_Offset(void)
 	s16 TempGPQA = 0;
 	float PA_Offset = 0.0f;
 
-	if(RN8209_Reg.Ctl.GPQA > 0)
+	if(RN8209_Reg.Ctrl.GPQA > 0)
 	{
-		TempGPQA = (RN8209_Reg.Ctl.GPQA / 0x8000);
+		TempGPQA = (RN8209_Reg.Ctrl.GPQA / 0x8000);
 	}else{
-		TempGPQA = (RN8209_Reg.Ctl.GPQA - 0x10000) / 0x8000;
+		TempGPQA = (RN8209_Reg.Ctrl.GPQA - 0x10000) / 0x8000;
 	}
 
 	TempPowerA = RN8209_Analog.Voltage * RN8209_Analog.Current_A;
@@ -232,12 +232,12 @@ static void RN8209_Calibrate_PA_Gain_Offset(void)
 	PA_Offset = (TempPowerA / KP_VALUE - RN8209_AverageData.PowerPA) / (1 + TempGPQA);
 	if(PA_Offset > 0.0f)
 	{
-		RN8209_Reg.Ctl.APOSA = PA_Offset;
+		RN8209_Reg.Ctrl.APOSA = PA_Offset;
 	}else{
-		RN8209_Reg.Ctl.APOSA = PA_Offset + 0x10000;
+		RN8209_Reg.Ctrl.APOSA = PA_Offset + 0x10000;
 	}
 
-	Storage_RN8209.CtlReg.APOSA = RN8209_Reg.Ctl.APOSA;
+	Storage_RN8209.CtrlReg.APOSA = RN8209_Reg.Ctrl.APOSA;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }
@@ -249,11 +249,11 @@ static void RN8209_Calibrate_PB_Gain_Offset(void)
 	s16 TempGPQB = 0;
 	float PB_Offset = 0.0f;
 
-	if(RN8209_Reg.Ctl.GPQB > 0)
+	if(RN8209_Reg.Ctrl.GPQB > 0)
 	{
-		TempGPQB = (RN8209_Reg.Ctl.GPQB / 0x8000);
+		TempGPQB = (RN8209_Reg.Ctrl.GPQB / 0x8000);
 	}else{
-		TempGPQB = (RN8209_Reg.Ctl.GPQB - 0x10000) / 0x8000;
+		TempGPQB = (RN8209_Reg.Ctrl.GPQB - 0x10000) / 0x8000;
 	}
 
 	TempPowerB = RN8209_Analog.Voltage * RN8209_Analog.Current_B;
@@ -262,12 +262,12 @@ static void RN8209_Calibrate_PB_Gain_Offset(void)
 	PB_Offset = (TempPowerB / KP_VALUE - RN8209_AverageData.PowerPB) / (1 + TempGPQB);
 	if(PB_Offset > 0.0f)
 	{
-		RN8209_Reg.Ctl.APOSB = PB_Offset;
+		RN8209_Reg.Ctrl.APOSB = PB_Offset;
 	}else{
-		RN8209_Reg.Ctl.APOSB = PB_Offset + 0x10000;
+		RN8209_Reg.Ctrl.APOSB = PB_Offset + 0x10000;
 	}
 
-	Storage_RN8209.CtlReg.APOSB = RN8209_Reg.Ctl.APOSB;
+	Storage_RN8209.CtrlReg.APOSB = RN8209_Reg.Ctrl.APOSB;
 
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }

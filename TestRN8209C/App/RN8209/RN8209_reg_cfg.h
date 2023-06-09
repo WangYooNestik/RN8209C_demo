@@ -129,16 +129,16 @@ typedef enum{
 }EN_D2FM;
 
 typedef struct{
-	u16 Reserve_Bit2_0:3;
+	u16 Reserve_Bit0_2:3;
 	u16 Energy_fz:1;
 	EN_D2FM D2FM:2;
 	u16 ZXMODE:1;
 	EN_UPMODE UPMODE:1;
 	u16 PhsA0:1;
 	u16 PhsB0:1;
-	u16 Reserve_Bit11_10:2;
+	u16 Reserve_Bit10_11:2;
 	u16 FreqCnt:2;
-	u16 Reserve_Bit15_14:2;
+	u16 Reserve_Bit14_15:2;
 }ST_RN8209_EMC2_B;//Energy Measure Control 2
 
 typedef union{

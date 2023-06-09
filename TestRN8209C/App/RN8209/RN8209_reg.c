@@ -102,99 +102,99 @@ u8 RN8209_Reg_Value_2_Buf(EN_RN8209_REG_ADDR RegAddr, u8 Data[])
 	{
 		case ADDR_SYSCON:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.SYSCON.Value, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.SYSCON.Value, Len, Data);
 			break;
 		case ADDR_EMUCON:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.EMUCON.Value, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.EMUCON.Value, Len, Data);
 			break;
 		case ADDR_HFConst:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.HFConst, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.HFConst, Len, Data);
 			break;
 		case ADDR_PStart:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.PStart, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.PStart, Len, Data);
 			break;
 		case ADDR_DStart:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.DStart, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.DStart, Len, Data);
 			break;
 		case ADDR_GPQA:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.GPQA, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.GPQA, Len, Data);
 			break;
 		case ADDR_GPQB:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.GPQB, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.GPQB, Len, Data);
 			break;
 		case ADDR_PhsA:
 			Len = 1;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.PhsA, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.PhsA, Len, Data);
 			break;
 		case ADDR_PhsB:
 			Len = 1;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.PhsB, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.PhsB, Len, Data);
 			break;
 		case ADDR_QPHSCAL:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.QPHSCAL, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.QPHSCAL, Len, Data);
 			break;
 		case ADDR_APOSA:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.APOSA, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.APOSA, Len, Data);
 			break;
 		case ADDR_APOSB:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.APOSB, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.APOSB, Len, Data);
 			break;
 		case ADDR_RPOSA:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.RPOSA, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.RPOSA, Len, Data);
 			break;
 		case ADDR_RPOSB:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.RPOSB, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.RPOSB, Len, Data);
 			break;
 		case ADDR_IARMSOS:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.IARMSOS, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.IARMSOS, Len, Data);
 			break;
 		case ADDR_IBRMSOS:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.IBRMSOS, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.IBRMSOS, Len, Data);
 			break;
 		case ADDR_IBGain:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.IBGain, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.IBGain, Len, Data);
 			break;
 		case ADDR_D2FPL:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.D2FPL, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.D2FPL, Len, Data);
 			break;
 		case ADDR_D2FPH:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.D2FPH, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.D2FPH, Len, Data);
 			break;
 		case ADDR_DCIAH:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.DCIAH, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.DCIAH, Len, Data);
 			break;
 		case ADDR_DCIBH:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.DCIBH, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.DCIBH, Len, Data);
 			break;
 		case ADDR_DCUH:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.DCUH, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.DCUH, Len, Data);
 			break;
 		case ADDR_DCL:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.DCL, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.DCL, Len, Data);
 			break;
 		case ADDR_EMUCON2:
 			Len = 2;
-			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctl.EMUCON2.Value, Len, Data);
+			RN8209_Swap_Data((u8*)&RN8209_Reg.Ctrl.EMUCON2.Value, Len, Data);
 			break;
 		case ADDR_PFCnt:
 			Len = 2;
