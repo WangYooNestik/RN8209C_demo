@@ -21,22 +21,11 @@
 //RN8209C 固定为 4800 波特率
 //********************************************************
 typedef enum{
-	BAUDRATE_2400 = 0x2e,
-	BAUDRATE_4800 = 0x16,
-	BAUDRATE_9600 = 0x0b,
-	BAUDRATE_19200 = 0x05,
-}EN_BAUDRATE;
-
-typedef enum{
-	ADC_DISACTIVE = 0,	//不使能adc
-	ADC_ACTIVE,			//使能adc
-}EN_ADC_STA;
-
-typedef enum{
-	IB_GAIN_1 = 0,		//1倍增益
-	IB_GAIN_2,			//2倍增益
-	IB_GAIN_4,			//4倍增益
-}EN_PGAIB;
+	IA_GAIN_1 = 0,		//1倍增益
+	IA_GAIN_2,			//2倍增益
+	IA_GAIN_8,			//8倍增益
+	IA_GAIN_16,			//16倍增益
+}EN_PGAIA;
 
 typedef enum{
 	U_GAIN_1 = 0,
@@ -45,17 +34,28 @@ typedef enum{
 }EN_PGAU;
 
 typedef enum{
-	IA_GAIN_1 = 0,		//1倍增益
-	IA_GAIN_2,			//2倍增益
-	IA_GAIN_8,			//8倍增益
-	IA_GAIN_16,			//16倍增益
-}EN_PGAIA;
+	IB_GAIN_1 = 0,		//1倍增益
+	IB_GAIN_2,			//2倍增益
+	IB_GAIN_4,			//4倍增益
+}EN_PGAIB;
+
+typedef enum{
+	ADC2ON_DISACTIVE = 0,	//不使能adc
+	ADC2ON_ACTIVE,			//使能adc
+}EN_ADC2ON;
+	
+typedef enum{
+	BAUDRATE_2400 = 0x2e,
+	BAUDRATE_4800 = 0x16,
+	BAUDRATE_9600 = 0x0b,
+	BAUDRATE_19200 = 0x05,
+}EN_BAUDRATE;
 
 typedef struct{
 	EN_PGAIA PGAIA:2;
 	EN_PGAU PGAU:2;
 	EN_PGAIB PGAIB:2;
-	EN_ADC_STA ADC2ON:1;		// =1：表示 ADC 电流通道 B 开启；=0：表示 ADC 电流通道 B 关闭，ADC 输出恒为 0
+	EN_ADC2ON ADC2ON:1;			// =1：表示 ADC 电流通道 B 开启；=0：表示 ADC 电流通道 B 关闭，ADC 输出恒为 0
 	u16 Reserve_Bit7:1;
 	EN_BAUDRATE UartBr:7;		//UART 波特率选择，只读，其值由硬件管脚 B1 和 B0 决定
 	u16 Reserve_Bit15:1;
@@ -71,13 +71,13 @@ typedef union{
 
 
 typedef enum{
-	Accumulating = 0,			//电能寄存器为累加型
-	Clearing_After_Reading,		//电能寄存器为读后清零型
-}EN_EnergyCLR;
+	Disactive_RUN = 0,		//关闭脉冲输出和自定义电能寄存器累加
+	Active_RUN,				//使能脉冲输出和自定义电能寄存器累加
+}EN_RUN;
 
 typedef enum{
 	Active_DHPF = 0,		//使能数字高通滤波器
-	Disactive_DHPF,			//关闭数字高通滤波器
+	Disactive_DHPF, 		//关闭数字高通滤波器
 }EN_DHPF_STA;
 
 typedef enum{
@@ -87,9 +87,9 @@ typedef enum{
 }EN_MOD;
 
 typedef enum{
-	Disactive_RUN = 0,		//关闭脉冲输出和自定义电能寄存器累加
-	Active_RUN,				//使能脉冲输出和自定义电能寄存器累加
-}EN_RUN;
+	Accumulating = 0,			//电能寄存器为累加型
+	Clearing_After_Reading, 	//电能寄存器为读后清零型
+}EN_EnergyCLR;
 
 typedef struct{
 	EN_RUN PRUN:1;			// PF 脉冲
@@ -117,16 +117,16 @@ typedef union{
 
 
 typedef enum{
-	UPMODE_3_495Hz = 0,		//功率及有效值寄存器更新速度为 3.495Hz
-	UPMODE_13_982Hz,		//功率及有效值寄存器更新速度为 13.982Hz
-}EN_UPMODE;
-
-typedef enum{
 	D2FM_1 = 0,		//自定义电能输入选择为无功功率
 	D2FM_2,			//自定义电能输入选择为通道 A 和通道 B 有功功率的矢量和
 	D2FM_3,			//自定义电能输入选择为自定义功率寄存器 D2FP
 	D2FM_4,			//自定义电能输入选择为通道 B 有功功率
 }EN_D2FM;
+
+typedef enum{
+	UPMODE_3_495Hz = 0, 	//功率及有效值寄存器更新速度为 3.495Hz
+	UPMODE_13_982Hz,		//功率及有效值寄存器更新速度为 13.982Hz
+}EN_UPMODE;
 
 typedef struct{
 	u16 Reserve_Bit0_2:3;

@@ -135,8 +135,8 @@ static void RN8209_Calibrate_Effective_Offset(void)
 	Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 }
 
-#define RN8209_Un 48.0f		//额定电压
-#define RN8209_Ib 50.0f		//额定电流
+#define RN8209_Un 60.0f		//额定电压
+#define RN8209_Ib 30.0f		//额定电流
 
 //校准电压增益
 static void RN8209_Calibrate_U_Gain(void)
@@ -161,7 +161,7 @@ static void RN8209_Calibrate_PA_Gain(void)
 	float PA_Err = 0.0f;
 	float PA_Gain = 0.0f;
 
-	Temp1 = RN8209_Analog.Voltage * RN8209_Ib;
+	Temp1 = RN8209_Analog.U * RN8209_Ib;
 //	Temp1 = RN8209_Un * RN8209_Ib;
 
 	PA_Err = (RN8209_AverageData.PowerPA * KP_VALUE - Temp1) / Temp1;
@@ -194,7 +194,7 @@ static void RN8209_Calibrate_PB_Gain(void)
 	float PB_Err = 0.0f;
 	float PB_Gain = 0.0f;
 
-	Temp1 = RN8209_Analog.Voltage * RN8209_Ib;
+	Temp1 = RN8209_Analog.U * RN8209_Ib;
 //	Temp1 = RN8209_Un * RN8209_Ib;
 
 	PB_Err = (RN8209_AverageData.PowerPB * KP_VALUE - Temp1) / Temp1;
@@ -226,7 +226,7 @@ static void RN8209_Calibrate_PA_Gain_Offset(void)
 		TempGPQA = (RN8209_Reg.Ctrl.GPQA - 0x10000) / 0x8000;
 	}
 
-	TempPowerA = RN8209_Analog.Voltage * RN8209_Analog.Current_A;
+	TempPowerA = RN8209_Analog.U * RN8209_Analog.IA;
 //	TempPowerA = RN8209_Un * RN8209_Ib * 0.05f;
 
 	PA_Offset = (TempPowerA / KP_VALUE - RN8209_AverageData.PowerPA) / (1 + TempGPQA);
@@ -256,7 +256,7 @@ static void RN8209_Calibrate_PB_Gain_Offset(void)
 		TempGPQB = (RN8209_Reg.Ctrl.GPQB - 0x10000) / 0x8000;
 	}
 
-	TempPowerB = RN8209_Analog.Voltage * RN8209_Analog.Current_B;
+	TempPowerB = RN8209_Analog.U * RN8209_Analog.IB;
 //	TempPowerB = RN8209_Un * RN8209_Ib * 0.05f;
 
 	PB_Offset = (TempPowerB / KP_VALUE - RN8209_AverageData.PowerPB) / (1 + TempGPQB);
@@ -276,6 +276,8 @@ static void RN8209_Calibrate_PB_Gain_Offset(void)
 
 
 
+
+#define WAIT_DATA_REFRESH_TIME TIME_10S
 
 static EN_Global_Status RN8209_Calibrate_Zero(void)
 {

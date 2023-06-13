@@ -1,5 +1,6 @@
 #include "app_storage.h"
 #include "app_storage_RN8209.h"
+#include "app_storage_V9240.h"
 
 
 
@@ -29,6 +30,7 @@ void Storage_Init(void)
 	W25qxx_Init();
 
 	Load_Storage_RN8209();
+	Load_Storage_V9240();
 }
 
 static bool Init_Storage_Info(EN_STORAGE_TYPE Type, ST_STORAGE_INFO *StorageInfo)
@@ -39,6 +41,10 @@ static bool Init_Storage_Info(EN_STORAGE_TYPE Type, ST_STORAGE_INFO *StorageInfo
 	{
 		case STORAGE_RN8209:
 			Init_Storage_RN8209_Info(StorageInfo);
+			FoundStorage = true;
+			break;
+		case STORAGE_V9240:
+			Init_Storage_V9240_Info(StorageInfo);
 			FoundStorage = true;
 			break;
 		default:

@@ -5,8 +5,12 @@
 #include "RN8209_main.h"
 #include "RN8209_calibrate.h"
 #include "RN8209_read.h"
+#include "V9240_main.h"
+#include "V9240_calibrate.h"
+#include "V9240_read.h"
 #include "app_storage.h"
 #include "app_storage_RN8209.h"
+#include "app_storage_V9240.h"
 
 
 
@@ -24,12 +28,33 @@ static EN_CID2_RTN Parse_Responder_Cmd(void)
 	switch(UartRcv.Data.Temp1.pBuf[YDT_IDX_CID2])
 	{
 		case CID2_RCV_CALIBRATE_GET_STATUS:
-			if(Get_RN8209_Main_State() == RN8209_MAIN_RUN)
+			if(Get_RN8209_Main_State() == RN8209_MAIN_RUN && Get_V9240_Main_State() == V9240_MAIN_RUN)
 			{
 				UartRcv.Data.Temp2.pBuf[Idx2++] = 0;
 			}else{
 				UartRcv.Data.Temp2.pBuf[Idx2++] = 1;
 			}
+			break;
+		case CID2_RCV_GET_ANALOG:
+			Float_To_DataBuf(RN8209_Analog.U,  &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(RN8209_Analog.IA, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(RN8209_Analog.PA, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(RN8209_Analog.EA, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+		
+			Float_To_DataBuf(RN8209_Analog.U,  &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(RN8209_Analog.IA, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(RN8209_Analog.PA1, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(RN8209_Analog.EA, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+		
+			Float_To_DataBuf(V9240_Analog.U, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(V9240_Analog.I, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(V9240_Analog.P, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(V9240_Analog.E, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+		
+			Float_To_DataBuf(V9240_Analog.U, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(V9240_Analog.I, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(V9240_Analog.P1, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+			Float_To_DataBuf(V9240_Analog.E1, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
 			break;
 		case CID2_RCV_CALIBRATE_ZERO:
 			RN8209_Set_Calibrate_Func(RN8209_CALIBRATE_FUNC_ZERO);
@@ -43,21 +68,31 @@ static EN_CID2_RTN Parse_Responder_Cmd(void)
 		case CID2_RCV_CALIBRATE_P_OFFSET:
 			RN8209_Set_Calibrate_Func(RN8209_CALIBRATE_FUNC_P_GAIN_OFFSET);
 			break;
-		case CID2_RCV_GET_ANALOG:
-			Float_To_DataBuf(RN8209_Analog.Voltage,   &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-			Float_To_DataBuf(RN8209_Analog.Current_A, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-			Float_To_DataBuf(RN8209_Analog.Power_A,   &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-			Float_To_DataBuf(RN8209_Analog.Energy_A,  &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-			Float_To_DataBuf(RN8209_Analog.Current_B, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-			Float_To_DataBuf(RN8209_Analog.Power_B,   &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-			Float_To_DataBuf(RN8209_Analog.Energy_B,  &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-			break;
 		case CID2_RCV_CLEAR_ENERGY:
 			Storage_RN8209.EA_Count = 0;
 			Storage_RN8209.EB_Count = 0;
 			Storage_RN8209.DataReg.PFCnt = 0;
 			Storage_RN8209.DataReg.DFcnt = 0;
 			Storage_Set_NeedSave_Flag(STORAGE_RN8209);
+			break;
+		case CID2_RCV_CALIBRATE_ZERO1:
+			V9240_Set_Calibrate_Func(V9240_CALIBRATE_FUNC_ZERO);
+			break;
+		case CID2_RCV_CALIBRATE_U1:
+			V9240_Set_Calibrate_Func(V9240_CALIBRATE_FUNC_U_GAIN);
+			break;
+		case CID2_RCV_CALIBRATE_I_AND_P1:
+			V9240_Set_Calibrate_Func(V9240_CALIBRATE_FUNC_I_AND_P_GAIN);
+			break;
+		case CID2_RCV_CALIBRATE_P_OFFSET1:
+			V9240_Set_Calibrate_Func(V9240_CALIBRATE_FUNC_P_GAIN_OFFSET);
+			break;
+		case CID2_RCV_CLEAR_ENERGY1:
+			Storage_V9240.E.Int = 0;
+			Storage_V9240.E.Float = 0.0f;
+			Storage_V9240.E1.Int = 0;
+			Storage_V9240.E1.Float = 0.0f;
+			Storage_Set_NeedSave_Flag(STORAGE_V9240);
 			break;
 		default:
 			break;

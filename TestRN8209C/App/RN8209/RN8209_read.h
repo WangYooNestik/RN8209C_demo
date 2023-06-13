@@ -7,26 +7,24 @@
 
 
 
-#define WAIT_DATA_REFRESH_TIME TIME_10S
-
 extern ST_RN8209_DATA_REG RN8209_AverageData;
 
 typedef struct{
-	float Voltage;
-	float Current_A;
-	float Power_A;
-	float Power_A_1;
-	double Energy_A;
-	float Current_B;
-	float Power_B;
-	float Power_B_1;
-	double Energy_B;
+	float U;
+	float IA;
+	float PA;
+	float PA1;
+	double EA;
+	float IB;
+	float PB;
+	float PB1;
+	double EB;
 }ST_RN8209_ANALOG;
 
 extern ST_RN8209_ANALOG RN8209_Analog;
 
 
-void RN8209_Read(void);
+void RN8209_Read_Handler(void);
 
 #endif
 

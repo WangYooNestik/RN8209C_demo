@@ -21,6 +21,7 @@
 #include "dma.h"
 #include "iwdg.h"
 #include "spi.h"
+#include "tim.h"
 #include "usart.h"
 #include "gpio.h"
 
@@ -28,6 +29,7 @@
 /* USER CODE BEGIN Includes */
 #include "app_init_variables.h"
 #include "RN8209_main.h"
+#include "V9240_main.h"
 #include "app_uart_rcv.h"
 #include "app_led.h"
 #include "app_storage.h"
@@ -99,6 +101,8 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_SPI2_Init();
+  MX_TIM7_Init();
+  MX_TIM6_Init();
   /* USER CODE BEGIN 2 */
 
   HAL_Delay(TIME_2S);
@@ -110,6 +114,7 @@ int main(void)
   while (1)
   {
     RN8209_Handler();
+//    V9240_Handler();
     Uart_Handler();
     LED_Handler();
     Storage_Handler();

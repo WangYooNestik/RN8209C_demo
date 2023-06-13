@@ -467,4 +467,12 @@ void HAL_UARTEx_RxEventCallback(UART_HandleTypeDef *huart, uint16_t Size)
 		}
 	}
 }
+
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart)
+{
+	if(huart->Instance == USART3)
+	{
+		HAL_UARTEx_ReceiveToIdle_DMA(huart, Uart3.Rx.pBuf, UART3_BUF_SIZE);
+	}
+}
 /* USER CODE END 1 */

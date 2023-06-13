@@ -71,6 +71,7 @@ typedef volatile uint8_t  vu8;
 #define TIME_200MS 200
 #define TIME_300MS 300
 #define TIME_500MS 500
+#define TIME_700MS 700
 #define TIME_1S    1000
 #define TIME_2S    2000
 #define TIME_3S    3000

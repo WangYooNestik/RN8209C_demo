@@ -14,24 +14,27 @@ ST_RN8209_DATA_REG RN8209_AverageData;
 
 ST_RN8209_ANALOG RN8209_Analog;
 
-#define RN8209_EC 3200		//电表常数
+#define SAMP_TIMES 25
+
+typedef struct{
+	u32 WaitTick;
+	u32 WaitTick1;
+	ST_RN8209_DATA_REG DataBuf[SAMP_TIMES];
+	u8 DataIdx;
+}ST_RN8209_READ;
+
+ST_RN8209_READ RN8209_Read;
 
 #define READ_REG_NUM 10
 
-#define SAMP_TIMES 25
-
-void RN8209_Read(void)
+void RN8209_Read_Handler(void)
 {
-	static u32 WaitTick = 0;
-	static u32 WaitTick1 = 0;
-	static ST_RN8209_DATA_REG TempDataBuf[SAMP_TIMES];
-	static u8 Idx = 0;
 	EN_Global_Status Status[READ_REG_NUM] = {Status_Success};
 	u8 i = 0;
 	u64 TempSum1[3] = {0};
 	s64 TempSum2[2] = {0};
 
-	if(Tick_Timeout(&WaitTick, TIME_100MS))
+	if(Tick_Timeout(&RN8209_Read.WaitTick, TIME_100MS))
 	{
 		Status[0] = RN8209_Read_Reg(ADDR_URMS);
 		Status[1] = RN8209_Read_Reg(ADDR_IARMS);
@@ -54,7 +57,7 @@ void RN8209_Read(void)
 			}
 		}
 
-		if(Tick_Timeout(&WaitTick1, TIME_5S))
+		if(Tick_Timeout(&RN8209_Read.WaitTick1, TIME_5S))
 		{
 			Storage_RN8209.DataReg.PFCnt = RN8209_Reg.Data.PFCnt;
 			Storage_RN8209.DataReg.DFcnt = RN8209_Reg.Data.DFcnt;
@@ -76,18 +79,18 @@ void RN8209_Read(void)
 			Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 		}
 #if 1
-		TempDataBuf[Idx] = RN8209_Reg.Data;
+		RN8209_Read.DataBuf[RN8209_Read.DataIdx] = RN8209_Reg.Data;
 #else
-		TempDataBuf[Idx].URMS = RN8209_Reg.Data.URMS;
-		TempDataBuf[Idx].IARMS = RN8209_Reg.Data.IARMS;
-		TempDataBuf[Idx].PowerPA = RN8209_Reg.Data.PowerPA;
-		TempDataBuf[Idx].IBRMS = RN8209_Reg.Data.IBRMS;
-		TempDataBuf[Idx].PowerPB = RN8209_Reg.Data.PowerPB;
+		RN8209_Read.DataBuf[RN8209_Read.DataIdx].URMS = RN8209_Reg.Data.URMS;
+		RN8209_Read.DataBuf[RN8209_Read.DataIdx].IARMS = RN8209_Reg.Data.IARMS;
+		RN8209_Read.DataBuf[RN8209_Read.DataIdx].PowerPA = RN8209_Reg.Data.PowerPA;
+		RN8209_Read.DataBuf[RN8209_Read.DataIdx].IBRMS = RN8209_Reg.Data.IBRMS;
+		RN8209_Read.DataBuf[RN8209_Read.DataIdx].PowerPB = RN8209_Reg.Data.PowerPB;
 #endif
 
-		if(++Idx >= SAMP_TIMES)
+		if(++RN8209_Read.DataIdx >= SAMP_TIMES)
 		{
-			Idx = 0;
+			RN8209_Read.DataIdx = 0;
 
 			//测试读数据耗时
 			HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port, LED_ERROR_Pin);
@@ -95,11 +98,11 @@ void RN8209_Read(void)
 
 		for(i=0; i<SAMP_TIMES; i++)
 		{
-			TempSum1[0] += TempDataBuf[i].URMS;
-			TempSum1[1] += TempDataBuf[i].IARMS;
-			TempSum1[2] += TempDataBuf[i].IBRMS;
-			TempSum2[0] += TempDataBuf[i].PowerPA;
-			TempSum2[1] += TempDataBuf[i].PowerPB;
+			TempSum1[0] += RN8209_Read.DataBuf[i].URMS;
+			TempSum1[1] += RN8209_Read.DataBuf[i].IARMS;
+			TempSum1[2] += RN8209_Read.DataBuf[i].IBRMS;
+			TempSum2[0] += RN8209_Read.DataBuf[i].PowerPA;
+			TempSum2[1] += RN8209_Read.DataBuf[i].PowerPB;
 		}
 
 		RN8209_AverageData.URMS = TempSum1[0] / SAMP_TIMES;
@@ -108,15 +111,16 @@ void RN8209_Read(void)
 		RN8209_AverageData.PowerPA = TempSum2[0] / SAMP_TIMES;
 		RN8209_AverageData.PowerPB = TempSum2[1] / SAMP_TIMES;
 
-		RN8209_Analog.Voltage   = RN8209_AverageData.URMS * Storage_RN8209.U_Gain;
-		RN8209_Analog.Current_A = RN8209_AverageData.IARMS * Storage_RN8209.IA_Gain;
-		RN8209_Analog.Power_A   = RN8209_AverageData.PowerPA * KP_VALUE;
-		RN8209_Analog.Power_A_1 = RN8209_Analog.Voltage * RN8209_Analog.Current_A;
-		RN8209_Analog.Energy_A  = (double)Storage_RN8209.EA_Count / RN8209_EC;
-		RN8209_Analog.Current_B = RN8209_AverageData.IBRMS * Storage_RN8209.IB_Gain;
-		RN8209_Analog.Power_B   = RN8209_AverageData.PowerPB * KP_VALUE;
-		RN8209_Analog.Power_B_1 = RN8209_Analog.Voltage * RN8209_Analog.Current_B;
-		RN8209_Analog.Energy_B  = (double)Storage_RN8209.EB_Count / RN8209_EC;
+		RN8209_Analog.U   = RN8209_AverageData.URMS * Storage_RN8209.U_Gain;
+		RN8209_Analog.IA  = RN8209_AverageData.IARMS * Storage_RN8209.IA_Gain;
+		RN8209_Analog.PA  = RN8209_AverageData.PowerPA * KP_VALUE;
+		RN8209_Analog.EA  = (double)Storage_RN8209.EA_Count / RN8209_EC;
+		RN8209_Analog.PA1 = RN8209_Analog.U * RN8209_Analog.IA;
+
+		RN8209_Analog.IB  = RN8209_AverageData.IBRMS * Storage_RN8209.IB_Gain;
+		RN8209_Analog.PB  = RN8209_AverageData.PowerPB * KP_VALUE;
+		RN8209_Analog.EB  = (double)Storage_RN8209.EB_Count / RN8209_EC;
+		RN8209_Analog.PB1 = RN8209_Analog.U * RN8209_Analog.IB;
 	}
 }
 

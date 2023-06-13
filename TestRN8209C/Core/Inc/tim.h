@@ -1,9 +1,9 @@
 /* USER CODE BEGIN Header */
 /**
   ******************************************************************************
-  * @file    usart.h
+  * @file    tim.h
   * @brief   This file contains all the function prototypes for
-  *          the usart.c file
+  *          the tim.c file
   ******************************************************************************
   * @attention
   *
@@ -18,8 +18,8 @@
   */
 /* USER CODE END Header */
 /* Define to prevent recursive inclusion -------------------------------------*/
-#ifndef __USART_H__
-#define __USART_H__
+#ifndef __TIM_H__
+#define __TIM_H__
 
 #ifdef __cplusplus
 extern "C" {
@@ -29,38 +29,19 @@ extern "C" {
 #include "main.h"
 
 /* USER CODE BEGIN Includes */
-#include "app_global.h"
-
-#define UART1_BUF_SIZE 200
-#define UART2_BUF_SIZE 200
-#define UART3_BUF_SIZE 10
-
-typedef struct{
-	ST_BUF Rx;
-	ST_BUF Tx;
-}ST_UART_INFO;
-
-extern ST_UART_INFO Uart1;
-extern ST_UART_INFO Uart2;
-extern ST_UART_INFO Uart3;
-
-void Init_Uart_Variables(void);
 
 /* USER CODE END Includes */
 
-extern UART_HandleTypeDef huart1;
+extern TIM_HandleTypeDef htim6;
 
-extern UART_HandleTypeDef huart2;
-
-extern UART_HandleTypeDef huart3;
+extern TIM_HandleTypeDef htim7;
 
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */
 
-void MX_USART1_UART_Init(void);
-void MX_USART2_UART_Init(void);
-void MX_USART3_UART_Init(void);
+void MX_TIM6_Init(void);
+void MX_TIM7_Init(void);
 
 /* USER CODE BEGIN Prototypes */
 
@@ -70,5 +51,5 @@ void MX_USART3_UART_Init(void);
 }
 #endif
 
-#endif /* __USART_H__ */
+#endif /* __TIM_H__ */
 

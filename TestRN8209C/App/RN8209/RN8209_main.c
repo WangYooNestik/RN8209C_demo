@@ -12,7 +12,7 @@ typedef struct{
 	
 }ST_RN8209;
 
-static ST_RN8209 RN8209;
+ST_RN8209 RN8209;
 
 
 EN_RN8209_MAIN_STATE Get_RN8209_Main_State(void)
@@ -46,6 +46,6 @@ void RN8209_Handler(void)
 			break;
 	}
 
-	RN8209_Read();
+	RN8209_Read_Handler();
 }
 
