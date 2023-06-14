@@ -110,12 +110,12 @@ void RN8209_Read_Handler(void)
 		RN8209_Analog.IA  = RN8209_AverageData.IARMS * Storage_RN8209.IA_Gain;
 		RN8209_Analog.PA  = RN8209_AverageData.PowerPA * KP_VALUE;
 		RN8209_Analog.EA  = (double)Storage_RN8209.EA_Count / RN8209_EC;
-		RN8209_Analog.PA1 = RN8209_Analog.U * RN8209_Analog.IA;
+		RN8209_Analog.PA1 = RN8209_Reg.Data.URMS * Storage_RN8209.U_Gain * RN8209_Reg.Data.IARMS * Storage_RN8209.IA_Gain;
 
 		RN8209_Analog.IB  = RN8209_AverageData.IBRMS * Storage_RN8209.IB_Gain;
 		RN8209_Analog.PB  = RN8209_AverageData.PowerPB * KP_VALUE;
 		RN8209_Analog.EB  = (double)Storage_RN8209.EB_Count / RN8209_EC;
-		RN8209_Analog.PB1 = RN8209_Analog.U * RN8209_Analog.IB;
+		RN8209_Analog.PB1 = RN8209_Reg.Data.URMS * Storage_RN8209.U_Gain * RN8209_Reg.Data.IBRMS * Storage_RN8209.IB_Gain;
 	}
 
 	if(RN8209_Read.CalculateEnergyCount > 0)
