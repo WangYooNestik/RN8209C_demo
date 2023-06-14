@@ -14,16 +14,11 @@ ST_RN8209_DATA_REG RN8209_AverageData;
 
 ST_RN8209_ANALOG RN8209_Analog;
 
-#define SAMP_TIMES 25
-
-typedef struct{
-	u32 WaitTick;
-	u32 WaitTick1;
-	ST_RN8209_DATA_REG DataBuf[SAMP_TIMES];
-	u8 DataIdx;
-}ST_RN8209_READ;
-
 ST_RN8209_READ RN8209_Read;
+
+#define CYCLE_TIME_200MS 0.2
+
+#define FLOAT_RESOLUTION 1.0
 
 #define READ_REG_NUM 10
 
@@ -33,20 +28,20 @@ void RN8209_Read_Handler(void)
 	u8 i = 0;
 	u64 TempSum1[3] = {0};
 	s64 TempSum2[2] = {0};
+	float TempE = 0.0f;
 
-	if(Tick_Timeout(&RN8209_Read.WaitTick, TIME_100MS))
+	if(Tick_Timeout(&RN8209_Read.WaitTick, TIME_200MS))
 	{
 		Status[0] = RN8209_Read_Reg(ADDR_URMS);
 		Status[1] = RN8209_Read_Reg(ADDR_IARMS);
 		Status[2] = RN8209_Read_Reg(ADDR_PowerPA);
 		Status[3] = RN8209_Read_Reg(ADDR_EnergyP);
-		Status[4] = RN8209_Read_Reg(ADDR_IBRMS);
-		Status[5] = RN8209_Read_Reg(ADDR_PowerPB);
-		Status[6] = RN8209_Read_Reg(ADDR_EnergyD);
-		Status[7] = RN8209_Read_Reg(ADDR_EMUStatus);
-
-		Status[8] = RN8209_Read_Reg(ADDR_PFCnt);
-		Status[9] = RN8209_Read_Reg(ADDR_DFcnt);
+		Status[4] = RN8209_Read_Reg(ADDR_PFCnt);
+		Status[5] = RN8209_Read_Reg(ADDR_IBRMS);
+		Status[6] = RN8209_Read_Reg(ADDR_PowerPB);
+		Status[7] = RN8209_Read_Reg(ADDR_EnergyD);
+		Status[8] = RN8209_Read_Reg(ADDR_DFcnt);
+		Status[9] = RN8209_Read_Reg(ADDR_EMUStatus);
 
 		for(i=0; i<READ_REG_NUM; i++)
 		{
@@ -121,6 +116,33 @@ void RN8209_Read_Handler(void)
 		RN8209_Analog.PB  = RN8209_AverageData.PowerPB * KP_VALUE;
 		RN8209_Analog.EB  = (double)Storage_RN8209.EB_Count / RN8209_EC;
 		RN8209_Analog.PB1 = RN8209_Analog.U * RN8209_Analog.IB;
+	}
+
+	if(RN8209_Read.CalculateEnergyCount > 0)
+	{
+		RN8209_Read.CalculateEnergyCount--;
+
+		TempE = RN8209_Analog.PA1 * CYCLE_TIME_200MS / 3600;
+
+		Storage_RN8209.EA.Float += TempE;
+		if(Storage_RN8209.EA.Float >= FLOAT_RESOLUTION)
+		{
+			Storage_RN8209.EA.Int   += 1;
+			Storage_RN8209.EA.Float -= FLOAT_RESOLUTION;
+		}
+
+		RN8209_Analog.EA1 = (float)Storage_RN8209.EA.Int + Storage_RN8209.EA.Float;
+
+		TempE = RN8209_Analog.PB1 * CYCLE_TIME_200MS / 3600;
+
+		Storage_RN8209.EB.Float += TempE;
+		if(Storage_RN8209.EB.Float >= FLOAT_RESOLUTION)
+		{
+			Storage_RN8209.EB.Int   += 1;
+			Storage_RN8209.EB.Float -= FLOAT_RESOLUTION;
+		}
+
+		RN8209_Analog.EB1 = (float)Storage_RN8209.EB.Int + Storage_RN8209.EB.Float;
 	}
 }
 

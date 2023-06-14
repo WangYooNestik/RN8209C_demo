@@ -40,17 +40,17 @@ static EN_CID2_RTN Parse_Responder_Cmd(void)
 			Float_To_DataBuf(RN8209_Analog.IA, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
 			Float_To_DataBuf(RN8209_Analog.PA, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
 			Float_To_DataBuf(RN8209_Analog.EA, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-		
+
 			Float_To_DataBuf(RN8209_Analog.U,  &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
 			Float_To_DataBuf(RN8209_Analog.IA, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
 			Float_To_DataBuf(RN8209_Analog.PA1, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-			Float_To_DataBuf(RN8209_Analog.EA, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-		
+			Float_To_DataBuf(RN8209_Analog.EA1, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
+
 			Float_To_DataBuf(V9240_Analog.U, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
 			Float_To_DataBuf(V9240_Analog.I, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
 			Float_To_DataBuf(V9240_Analog.P, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
 			Float_To_DataBuf(V9240_Analog.E, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
-		
+
 			Float_To_DataBuf(V9240_Analog.U, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
 			Float_To_DataBuf(V9240_Analog.I, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
 			Float_To_DataBuf(V9240_Analog.P1, &UartRcv.Data.Temp2.pBuf[Idx2], &Idx2, 4, 3);
@@ -73,6 +73,10 @@ static EN_CID2_RTN Parse_Responder_Cmd(void)
 			Storage_RN8209.EB_Count = 0;
 			Storage_RN8209.DataReg.PFCnt = 0;
 			Storage_RN8209.DataReg.DFcnt = 0;
+			Storage_RN8209.EA.Int = 0;
+			Storage_RN8209.EA.Float = 0.0f;
+			Storage_RN8209.EB.Int = 0;
+			Storage_RN8209.EB.Float = 0.0f;
 			Storage_Set_NeedSave_Flag(STORAGE_RN8209);
 			break;
 		case CID2_RCV_CALIBRATE_ZERO1:

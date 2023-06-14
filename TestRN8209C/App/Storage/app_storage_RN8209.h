@@ -17,6 +17,8 @@ typedef struct{
 	float IB_Gain;
 	u64 EA_Count;			//总电量
 	u64 EB_Count;
+	ST_MY_FLOAT EA;
+	ST_MY_FLOAT EB;
 }ST_STORAGE_RN8209;
 
 extern ST_STORAGE_RN8209 Storage_RN8209;

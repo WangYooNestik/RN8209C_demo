@@ -35,8 +35,8 @@ typedef enum{
 	ADDR_DCL = 0x16,
 	ADDR_EMUCON2 = 0x17,	//计量控制寄存器2
 
-	ADDR_PFCnt = 0x20,
-	ADDR_DFcnt = 0x21,
+	ADDR_PFCnt = 0x20,		//通道A快速有功脉冲计数
+	ADDR_DFcnt = 0x21,		
 	ADDR_IARMS = 0x22,		//通道A电流有效值
 	ADDR_IBRMS = 0x23,		//通道B电流有效值
 	ADDR_URMS = 0x24,		//电压有效值

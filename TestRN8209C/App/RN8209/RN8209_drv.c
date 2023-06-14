@@ -17,6 +17,7 @@ static void RN8209_Send(u8 Data[], u8 Len)
 {
 	HAL_GPIO_WritePin(GPIOA, RN8209C_CH_SW_B_Pin|RN8209C_CH_SW_A_Pin, GPIO_PIN_RESET);
 
+	huart3.Init.BaudRate = 4800;
 	huart3.Init.Parity = UART_PARITY_EVEN;
 	if (HAL_UART_Init(&huart3) != HAL_OK)
 	{

@@ -21,6 +21,7 @@
 #include "tim.h"
 
 /* USER CODE BEGIN 0 */
+#include "RN8209_read.h"
 #include "V9240_read.h"
 /* USER CODE END 0 */
 
@@ -163,16 +164,17 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 }
 
 /* USER CODE BEGIN 1 */
-void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)				//250ms
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim == &htim7)
+	if(htim == &htim7)	//700ms
 	{
 		//HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port,LED_ERROR_Pin);
 		V9240_Read.CalculateEnergyCount++;
 	}
-	else if(htim == &htim6)
+	else if(htim == &htim6)	//200ms
 	{
 		//HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port,LED_ERROR_Pin);
+		RN8209_Read.CalculateEnergyCount++;
 		V9240_Read.CalculateEnergyCount1++;
 	}
 }
