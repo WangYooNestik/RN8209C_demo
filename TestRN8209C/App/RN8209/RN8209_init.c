@@ -40,36 +40,36 @@ static u16 RN8209_Set_Ctrl_Regs(void)
 
 #if 1
 	RN8209_Reg.Ctrl.SYSCON.Value = 0;
-	RN8209_Reg.Ctrl.SYSCON.Value_B.UartBr = BAUDRATE_4800;	//这个是只读，这里只是用来校验。调整这个参数并不影响真正的baudrate，要切换baudrate只能配置管脚
-	RN8209_Reg.Ctrl.SYSCON.Value_B.ADC2ON = ADC2ON_ACTIVE;	//开启电流通道B
-	RN8209_Reg.Ctrl.SYSCON.Value_B.PGAIB = IB_GAIN_4;		//电流B增益4
+	RN8209_Reg.Ctrl.SYSCON.Value_B.UartBr = BAUDRATE_4800;		//这个是只读，这里只是用来校验。调整这个参数并不影响真正的baudrate，要切换baudrate只能配置管脚
+	RN8209_Reg.Ctrl.SYSCON.Value_B.ADC2ON = ADC2ON_ACTIVE;		//开启电流通道B
+	RN8209_Reg.Ctrl.SYSCON.Value_B.PGAIB = IB_GAIN_4;			//电流B增益4
 
-	if(CH_U_GAIN == CH_U_GAIN_1)
+	if(U_ADC_GAIN == U_ADC_GAIN_1)
 	{
 		RN8209_Reg.Ctrl.SYSCON.Value_B.PGAU = U_GAIN_1; 		//电压增益1
 	}
-	else if(CH_U_GAIN == CH_U_GAIN_2)
+	else if(U_ADC_GAIN == U_ADC_GAIN_2)
 	{
 		RN8209_Reg.Ctrl.SYSCON.Value_B.PGAU = U_GAIN_2; 		//电压增益2
 	}
-	else if(CH_U_GAIN == CH_U_GAIN_4)
+	else if(U_ADC_GAIN == U_ADC_GAIN_4)
 	{
 		RN8209_Reg.Ctrl.SYSCON.Value_B.PGAU = U_GAIN_4; 		//电压增益4
 	}
 
-	if(CH_I_GAIN == CH_I_GAIN_1)
+	if(IA_ADC_GAIN == IA_ADC_GAIN_1)
 	{
 		RN8209_Reg.Ctrl.SYSCON.Value_B.PGAIA = IA_GAIN_1;		//电流A增益1
 	}
-	else if(CH_I_GAIN == CH_I_GAIN_2)
+	else if(IA_ADC_GAIN == IA_ADC_GAIN_2)
 	{
 		RN8209_Reg.Ctrl.SYSCON.Value_B.PGAIA = IA_GAIN_2;		//电流A增益2
 	}
-	else if(CH_I_GAIN == CH_I_GAIN_8)
+	else if(IA_ADC_GAIN == IA_ADC_GAIN_8)
 	{
 		RN8209_Reg.Ctrl.SYSCON.Value_B.PGAIA = IA_GAIN_8;		//电流A增益8
 	}
-	else if(CH_I_GAIN == CH_I_GAIN_16)
+	else if(IA_ADC_GAIN == IA_ADC_GAIN_16)
 	{
 		RN8209_Reg.Ctrl.SYSCON.Value_B.PGAIA = IA_GAIN_16;		//电流A增益16
 	}
