@@ -12,7 +12,7 @@
 
 //#define PARAMETER_POWER 0.0000694444f
 //#define PARAMETER_POWER 0.000194444444444444444f
-#define CYCLE_TIME_700MS 0.7
+#define CYCLE_TIME_600MS 0.6
 #define CYCLE_TIME_200MS 0.2
 
 #define FLOAT_RESOLUTION 1.0
@@ -61,7 +61,7 @@ void V9240_Read_Handler(void)
 	u8 i = 0;
 	float TempE = 0.0f;
 
-	if(Tick_Timeout(&V9240_Read.WaitTick, TIME_700MS))
+	if(Tick_Timeout(&V9240_Read.WaitTick, TIME_600MS))
 	{
 		Status[0] = V9240_Read_Reg(Addr_SysSts);
 		Status[1] = V9240_Read_Reg(Addr_UAVG);
@@ -96,7 +96,7 @@ void V9240_Read_Handler(void)
 	{
 		V9240_Read.CalculateEnergyCount--;
 
-		TempE = V9240_Analog.P * CYCLE_TIME_700MS / 3600;
+		TempE = V9240_Analog.P * CYCLE_TIME_600MS / 3600;
 
 		Storage_V9240.E.Float += TempE;
 		if(Storage_V9240.E.Float >= FLOAT_RESOLUTION)

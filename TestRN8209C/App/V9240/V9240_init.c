@@ -194,7 +194,7 @@ static void V9240_Init_CheckSum(void)
 typedef enum{
 	V9240_RESET = 0,
 	V9240_SET_SYSCTRL,
-	V9240_SET_SYSCTRL_1,			//校准adc dc偏置专用的初始化
+	V9240_SET_SYSCTRL_1,		//校准adc dc偏置专用的初始化
 	V9240_SET_ANACTRL_1,
 	V9240_SET_ADC_DC_OFFSET,	//adc dc偏置
 	V9240_SET_U_GAIN,			//电压增益

@@ -30,6 +30,66 @@ static void RN8209_Send(u8 Data[], u8 Len)
 	HAL_UART_Transmit_DMA(&huart3, Uart3.Tx.pBuf, Uart3.Tx.Len);
 }
 
+static EN_Global_Status RN8209_Check_Reg_Pack(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
+{
+	EN_Global_Status Status = Status_Error;
+	u8 tmpData[RN8209_BUF_SIZE];
+	u8 i = 0;
+	u8 TempCSM = 0;
+
+	tmpData[0] = RegAddr;
+
+	for(i=0; i<(Len-1); i++)
+	{
+		tmpData[i+1] = Data[i];
+	}
+
+	TempCSM = (~(Check_Sum(tmpData, Len)));
+
+	if(Data[Len-1] == TempCSM)
+	{
+		Status = Status_Success;
+	}
+
+	return Status;
+}
+
+static EN_Global_Status RN8209_Wait_Ack(EN_RN8209_REG_ADDR RegAddr)
+{
+	EN_Global_Status Status = Status_Success;
+	u32 WaitTick = 0;
+	u8 tmpData[RN8209_BUF_SIZE];
+	u8 Len = 0;
+
+	Reset_Tick(&WaitTick);
+
+	while(1)
+	{
+		if(Uart3.Rx.Len > 0)
+		{
+			memcpy(tmpData, Uart3.Rx.pBuf, Uart3.Rx.Len);
+			Len = Uart3.Rx.Len;
+
+			Uart3.Rx.Len = 0;
+
+			Status = RN8209_Check_Reg_Pack(RegAddr, tmpData, Len);
+			if(Status == Status_Success)
+			{
+				Status = RN8209_Parse_Cmd(RegAddr, tmpData, (Len-1));
+			}
+
+			break;
+		}
+		else if(Tick_Timeout(&WaitTick, TIME_50MS))
+		{
+			Status = Status_Timeout;
+			break;
+		}
+	}
+
+	return Status;
+}
+
 
 
 
@@ -75,43 +135,12 @@ EN_Global_Status RN8209_Write_Reg(EN_RN8209_REG_ADDR RegAddr)
 	return Status_Success;
 }
 
-
-
-
-
-static EN_Global_Status RN8209_Check_Reg_Pack(EN_RN8209_REG_ADDR RegAddr, u8 Data[], u8 Len)
-{
-	EN_Global_Status Status = Status_Error;
-	u8 tmpData[RN8209_BUF_SIZE];
-	u8 i = 0;
-	u8 TempCSM = 0;
-
-	tmpData[0] = RegAddr;
-
-	for(i=0; i<(Len-1); i++)
-	{
-		tmpData[i+1] = Data[i];
-	}
-
-	TempCSM = (~(Check_Sum(tmpData, Len)));
-
-	if(Data[Len-1] == TempCSM)
-	{
-		Status = Status_Success;
-	}
-
-	return Status;
-}
-
 //****************************************************
 //RN8209读寄存器
 //****************************************************
 EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
 {
 	EN_Global_Status Status = Status_Success;
-	u8 tmpData[RN8209_BUF_SIZE];
-	u8 Len = 0;
-	u32 WaitTick = 0;
 
 	if(If_Found_RN8209_Reg(RegAddr) == false)
 	{
@@ -121,31 +150,7 @@ EN_Global_Status RN8209_Read_Reg(EN_RN8209_REG_ADDR RegAddr)
 	//发送要读取的寄存器
 	RN8209_Send((u8*)&RegAddr, 1);
 
-	Reset_Tick(&WaitTick);
-
-	while(1)
-	{
-		if(Uart3.Rx.Len > 0)
-		{
-			memcpy(tmpData, Uart3.Rx.pBuf, Uart3.Rx.Len);
-			Len = Uart3.Rx.Len;
-
-			Uart3.Rx.Len = 0;
-
-			Status = RN8209_Check_Reg_Pack(RegAddr, tmpData, Len);
-			if(Status == Status_Success)
-			{
-				Status = RN8209_Parse_Cmd(RegAddr, tmpData, (Len-1));
-			}
-
-			break;
-		}
-		else if(Tick_Timeout(&WaitTick, TIME_25MS))
-		{
-			Status = Status_Timeout;
-			break;
-		}
-	}
+	Status = RN8209_Wait_Ack(RegAddr);
 
 	return Status;
 }

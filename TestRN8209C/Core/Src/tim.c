@@ -77,7 +77,7 @@ void MX_TIM7_Init(void)
   htim7.Instance = TIM7;
   htim7.Init.Prescaler = 6400-1;
   htim7.Init.CounterMode = TIM_COUNTERMODE_UP;
-  htim7.Init.Period = 7000-1;
+  htim7.Init.Period = 6000-1;
   htim7.Init.AutoReloadPreload = TIM_AUTORELOAD_PRELOAD_DISABLE;
   if (HAL_TIM_Base_Init(&htim7) != HAL_OK)
   {
@@ -166,7 +166,7 @@ void HAL_TIM_Base_MspDeInit(TIM_HandleTypeDef* tim_baseHandle)
 /* USER CODE BEGIN 1 */
 void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim)
 {
-	if(htim == &htim7)	//700ms
+	if(htim == &htim7)	//600ms
 	{
 		//HAL_GPIO_TogglePin(LED_ERROR_GPIO_Port,LED_ERROR_Pin);
 		V9240_Read.CalculateEnergyCount++;

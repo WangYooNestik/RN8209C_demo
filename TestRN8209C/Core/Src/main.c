@@ -113,8 +113,8 @@ int main(void)
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-    RN8209_Handler();
-//    V9240_Handler();
+//    RN8209_Handler();
+    V9240_Handler();
     Uart_Handler();
     LED_Handler();
     Storage_Handler();

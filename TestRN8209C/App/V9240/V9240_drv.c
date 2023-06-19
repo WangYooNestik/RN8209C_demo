@@ -110,7 +110,7 @@ static EN_Global_Status V9240_Wait_Ack(EN_RW_CTL RW_Ctl, EN_V9240_REG_ADDR RegAd
 
 			break;
 		}
-		else if(Tick_Timeout(&WaitTick, TIME_100MS))
+		else if(Tick_Timeout(&WaitTick, TIME_50MS))
 		{
 			Status = Status_Timeout;
 			break;
